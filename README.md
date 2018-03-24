@@ -1,2 +1,2 @@
 # CNPMCS
-Xây dựng App Android Chợ KTX
+Xây dựng App Android chia sẻ quán ăn
