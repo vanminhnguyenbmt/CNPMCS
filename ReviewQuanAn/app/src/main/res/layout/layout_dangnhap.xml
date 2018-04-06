@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutDangNhap"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#49B824">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/splash_icon"
+            android:src="@drawable/splash_icon" />
+
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
+            android:hint="@string/email"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"/>
+
+        <EditText
+            android:id="@+id/edPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+            android:hint="@string/password"
+            android:password="true"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/btnDangNhap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/radius_button"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="@string/dangnhap"
+            android:textColor="#49B824" />
+
+        <LinearLayout
+            android:id="@+id/layoutTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/hoac"
+                android:textColor="@color/colorAccent" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:colorScheme="dark">
+
+        </com.google.android.gms.common.SignInButton>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/btnFacebookLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="11dp"
+            android:paddingTop="11dp"
+            app:com_facebook_login_text="@string/dangnhapbangfacebook" />
+
+        <LinearLayout
+            android:id="@+id/layoutThree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvQuanMatKhau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:text="Quên mật khẩu?"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvDangKy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="5dp"
+                android:text="Đăng ký mới"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

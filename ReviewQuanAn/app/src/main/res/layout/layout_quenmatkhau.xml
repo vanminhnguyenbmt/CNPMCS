@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutQuenMatKhau"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="#49B824"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layoutOne"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/khoiphucmatkhau"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#FFFFFF"
+            android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
+            android:hint="Nhập email"
+            android:inputType="text"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnSendMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/radius_button"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="@string/quenmatkhau"
+            android:textColor="#49B824" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/chuthichkhoiphucmatkhau"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+</LinearLayout>
