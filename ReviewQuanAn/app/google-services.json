@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "703471269186-k2j2ihn792a9eivofmbp1il6chjk2hab.apps.googleusercontent.com",
+          "client_id": "703471269186-bjdoqp60m6ro1kno66o21cfti8ke3enb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.ochutgio.reviewquanan",
-            "certificate_hash": "df0e04c025199740c5e7ea00ae1449c83d4e0b4a"
+            "certificate_hash": "b5dd239b9d76af522da1956995f6fc50d9b47519"
           }
         },
         {

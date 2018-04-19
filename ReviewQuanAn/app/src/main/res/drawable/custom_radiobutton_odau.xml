@@ -5,8 +5,8 @@
             <stroke android:color="@color/colorAccent"
                 android:width="2dp"/>
             <solid android:color="@color/colorAccent"/>
-            <corners android:topLeftRadius="5dp"
-                android:bottomLeftRadius="5dp"/>
+            <corners android:topRightRadius="5dp"
+                android:bottomRightRadius="5dp"/>
         </shape>
     </item>
 
@@ -15,8 +15,8 @@
             <stroke android:color="@color/colorAccent"
                 android:width="2dp"/>
             <solid android:color="@color/colorPrimaryDark"/>
-            <corners android:topLeftRadius="5dp"
-                android:bottomLeftRadius="5dp"/>
+            <corners android:topRightRadius="5dp"
+                android:bottomRightRadius="5dp"/>
         </shape>
     </item>
 </selector>

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ReviewQuanAn</string>
-    <string name="facebook_app_id">1681090985271847</string>
+    <string name="facebook_app_id">369198963584775</string>
     <string name="splash_icon">A splash icon</string>
     <string name="email">Email</string>
     <string name="password">Mật khẩu</string>
@@ -15,14 +15,27 @@
     <string name="odau">Ở đâu</string>
     <string name="angi">Ăn gì</string>
     <string name="tab_moinhat">Mới nhất</string>
-    <string name="tab_danhmuc"> Quán ăn</string>
+    <string name="tab_danhmuc"> Hot</string>
     <string name="tab_khuvuc">Thủ Đức</string>
     <string name="application_name">YouFood</string>
-    <string name="ganday">Gần tôi</string>
+    <string name="gantoi">Gần tôi</string>
     <string name="giaohang">Giao hàng</string>
     <string name="danhgia">Đánh giá</string>
     <string name="khuyenmai">Khuyến mãi</string>
     <string name="quangnhau">Quán nhậu</string>
     <string name="quanan">Quán ăn</string>
+    <string name="hot">Hot</string>
+    <string name="dacsan">Đặc sản</string>
+    <string name="monlau">Món lẩu</string>
+    <string name="monnuong">Món nướng</string>
+    <string name="langdaihoc">Làng đại học</string>
+    <string name="dangxuat">Đăng xuất</string>
+    <string name="caidat">Cài đặt</string>
+    <string name="gioithieu">Giới thiệu</string>
+    <string name="thongbao">Thông báo</string>
+    <string name="hotro">Hỗ trợ</string>
+    <string name="ngonngu">Ngôn ngữ</string>
+    <string name="congdong">Cộng đồng</string>
+
 
 </resources>

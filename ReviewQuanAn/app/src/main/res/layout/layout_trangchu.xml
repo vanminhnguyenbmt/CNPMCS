@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+    android:id="@+id/layoutTrangChu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorTrangChu"
     android:orientation="vertical">
     
-    <android.support.v7.widget.Toolbar
+        <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark">
@@ -24,28 +32,30 @@
             android:layout_gravity="center"
             android:background="@drawable/background_radiobuttongroup_toolbar">
 
-            <RadioButton
-                android:id="@+id/rb_odau"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/custom_radiobutton_odau"
-                android:button="@android:color/transparent"
-                android:checked="true"
-                android:padding="10dp"
-                android:text="@string/odau"
-                android:textAllCaps="true"
-                android:textColor="@drawable/changetextcolor_radiobutton_toolbar" />
 
             <RadioButton
                 android:id="@+id/rb_angi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:background="@drawable/custom_radiobutton_angi"
                 android:button="@android:color/transparent"
                 android:padding="10dp"
                 android:text="@string/angi"
                 android:textAllCaps="true"
                 android:textColor="@drawable/changetextcolor_radiobutton_toolbar" />
+
+            <RadioButton
+                android:id="@+id/rb_odau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_radiobutton_odau"
+                android:button="@android:color/transparent"
+                android:padding="10dp"
+                android:text="@string/odau"
+                android:textAllCaps="true"
+                android:textColor="@drawable/changetextcolor_radiobutton_toolbar" />
+
 
         </RadioGroup>
 
@@ -57,7 +67,7 @@
             app:srcCompat="@drawable/ic_add_white_24dp" />
     </android.support.v7.widget.Toolbar>
 
-    <RadioGroup
+        <RadioGroup
         android:id="@+id/rbgroup_tab_trangchu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +83,7 @@
             android:text="@string/tab_moinhat"
             android:textColor="@drawable/changetextcolor_tab_trangchu"
             android:textAlignment="center"
-            android:drawableBottom="@drawable/ic_keyboard_arrow_down_black_24dp"
+            android:drawableBottom="@drawable/arrow_down_10"
             android:layout_weight="1"
             android:padding="5dp"/>
 
@@ -91,7 +101,7 @@
             android:button="@android:color/transparent"
             android:textColor="@drawable/changetextcolor_tab_trangchu"
             android:textAlignment="center"
-            android:drawableBottom="@drawable/ic_keyboard_arrow_down_black_24dp"
+            android:drawableBottom="@drawable/arrow_down_10"
             android:text="@string/tab_danhmuc"
             android:layout_weight="1"
             android:padding="5dp"/>
@@ -108,93 +118,33 @@
             android:button="@android:color/transparent"
             android:textAlignment="center"
             android:textColor="@drawable/changetextcolor_tab_trangchu"
-            android:drawableBottom="@drawable/ic_keyboard_arrow_down_black_24dp"
+            android:drawableBottom="@drawable/arrow_down_10"
             android:text="@string/tab_khuvuc"
             android:layout_weight="1"
             android:padding="5dp"/>
     </RadioGroup>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager_trangchu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorTrangChu">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        </android.support.v4.view.ViewPager>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radius_button"
-                    android:drawableLeft="@drawable/nearby"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:padding="10dp"
-                    android:text="@string/ganday"
-                    android:textAllCaps="false"
-                    android:textColor="#333"
-                    android:textStyle="normal" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radius_button"
-                    android:drawableLeft="@drawable/giaohang"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:padding="10dp"
-                    android:text="@string/giaohang"
-                    android:textAllCaps="false"
-                    android:textColor="#333" />
-            </LinearLayout>
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radius_button"
-                    android:drawableLeft="@drawable/review"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:padding="10dp"
-                    android:text="@string/danhgia"
-                    android:textAllCaps="false"
-                    android:textColor="#333" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radius_button"
-                    android:drawableLeft="@drawable/khuyenmai"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:padding="10dp"
-                    android:text="@string/khuyenmai"
-                    android:textAllCaps="false"
-                    android:textColor="#333" />
-            </LinearLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_view" />
 
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

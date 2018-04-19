@@ -119,7 +119,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvQuanMatKhau"
+                android:id="@+id/tvQuenMatKhau"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

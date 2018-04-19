@@ -3,5 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#49b824</color>
     <color name="colorAccent">#ffffff</color>
-    <color name="colorTrangChu">#ccc</color>
+    <color name="colorTrangChu">#DCDDE2</color>
+    <color name="colorTextTrangChu">#333</color>
+    <color name="colorTextBinhLuan">#666</color>
+    <color name="colorTextDiaChi">#666</color>
+    <color name="colorTextTenQuan">#333</color>
+    <color name="colorTextTenMon">#333</color>
+    <color name="colorTextTenUser">#333</color>
 </resources>
