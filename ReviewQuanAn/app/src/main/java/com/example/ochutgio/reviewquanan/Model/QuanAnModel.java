@@ -20,13 +20,23 @@ public class QuanAnModel {
 
     boolean giaohang;
     long luotthich;
-    String giomocua, giodongcua, tenquanan, videogioithieu, maquanan;
+    String giomocua, giodongcua, tenquanan, videogioithieu;
     List<String> tienich;
+
+    List<String> hinhanhquanan;
 
     DatabaseReference noteRoot;
 
     public QuanAnModel(){
         noteRoot = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public List<String> getHinhanhquanan() {
+        return hinhanhquanan;
+    }
+
+    public void setHinhanhquanan(List<String> hinhanhquanan) {
+        this.hinhanhquanan = hinhanhquanan;
     }
 
     public long getLuotthich() {
@@ -77,14 +87,6 @@ public class QuanAnModel {
         this.videogioithieu = videogioithieu;
     }
 
-    public String getMaquanan() {
-        return maquanan;
-    }
-
-    public void setMaquanan(String maquanan) {
-        this.maquanan = maquanan;
-    }
-
     public List<String> getTienich() {
         return tienich;
     }
@@ -99,8 +101,15 @@ public class QuanAnModel {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot dataSnapshotQuanAn = dataSnapshot.child("quanans");
+
                 for(DataSnapshot valueQuanAn : dataSnapshotQuanAn.getChildren()){
+                    List<String> hinhAnhQuanAnlist = new ArrayList<>();
                     QuanAnModel quanAnModel = valueQuanAn.getValue(QuanAnModel.class);
+                    DataSnapshot dataHinhAnhQuanAnList = dataSnapshot.child("hinhanhquanans").child(valueQuanAn.getKey());
+                    for(DataSnapshot valueHinhAnh : dataHinhAnhQuanAnList.getChildren()){
+                        hinhAnhQuanAnlist.add(valueHinhAnh.getValue(String.class));
+                    }
+                    quanAnModel.setHinhanhquanan(hinhAnhQuanAnlist);
                     odauInterface.getDanhSachQuanAnModel(quanAnModel);
                 }
 

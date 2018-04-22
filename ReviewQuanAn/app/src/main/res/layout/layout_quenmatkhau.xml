@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutQuenMatKhau"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:background="#49B824"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/layoutOne"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -27,7 +25,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edEmail"
+            android:id="@+id/edEmailKP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -45,12 +43,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:background="@drawable/radius_button"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
             android:text="@string/quenmatkhau"
-            android:textColor="#49B824" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <TextView
             android:layout_width="match_parent"

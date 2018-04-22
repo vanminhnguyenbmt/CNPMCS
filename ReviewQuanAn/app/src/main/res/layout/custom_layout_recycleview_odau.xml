@@ -33,6 +33,7 @@
                     android:id="@+id/txtTenQuanAnOdau"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:text="Quán Vườn Nhà Ai"
                     android:textColor="@color/colorTextTenQuan"
                     android:textStyle="bold" />
@@ -40,6 +41,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="118 Đồng Đen, P.12, quận Thủ Đức"
                     android:textSize="12sp"
                     android:textColor="@color/colorTextDiaChi"/>
@@ -57,9 +60,9 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/imgHinhQuanAn"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:srcCompat="@drawable/banh_xeo"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
@@ -75,21 +78,16 @@
                 app:civ_border_color="@color/colorAccent"
                 app:civ_border_width="1dp"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="10dp">
+                android:paddingLeft="10dp"
+                android:textColor="@color/colorTextBinhLuan"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="Món ăn ngon, hợp khẩu vị với người thích ăn cay, Đặc biệt nguyên liệu rất tươi sạch và blah" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextBinhLuan"
-                    android:textSize="12sp"
-                    android:text="Món ăn ngon, hợp khẩu vị với người thích ăn cay, Đặc biệt nguyên liệu rất tươi sạch và blah" />
-
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -106,31 +104,25 @@
                 app:civ_border_color="@color/colorAccent"
                 app:civ_border_width="1dp"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
                     android:textColor="@color/colorTextBinhLuan"
                     android:textSize="12sp"
-                    android:text="Món ăn ngon, hợp khẩu vị với người thích ăn cay, Đặc biệt nguyên liệu rất tươi sạch và blaa" />
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="Món ăn ngon, hợp khẩu vị với người thích ăn cay, đặc biệt ngon khi ăn nóng. Đồ uống thật tuyệt vời và bổ dưỡng mát lạnh như băng" />
 
 
-            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="5dp">
 
             <TextView
                 android:layout_width="wrap_content"

@@ -31,9 +31,10 @@ public class AnGiController {
     public void getDanhSachQuanAnController(RecyclerView recyclerAnGi){
 
         quanAnModelList  = new ArrayList<>();
+        // set layout cho recyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerAnGi.setLayoutManager(layoutManager);
-
+        // tạo adapterRecycleView và set adapter cho recyclerView
         adapterRecyclerAnGi = new AdapterRecyclerAnGi(quanAnModelList, R.layout.custom_layout_recycleview_angi);
         recyclerAnGi.setAdapter(adapterRecyclerAnGi);
 
@@ -44,6 +45,7 @@ public class AnGiController {
                 adapterRecyclerAnGi.notifyDataSetChanged();
             }
         };
+        // gọi hàm getdanhsachquanan của tầng model
         quanAnModel.getDanhSachQuanAn(odauInterface);
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class AdapterRecyclerAnGi extends RecyclerView.Adapter<AdapterRecyclerAnGi.ViewHolder> {
 
     List<QuanAnModel> quanAnModelList;
-    int resource;
+    int resource; // id của custom_layout_recyclerView
 
     public AdapterRecyclerAnGi( List<QuanAnModel> quanAnModelList, int resource) {
         this.quanAnModelList = quanAnModelList;
@@ -27,12 +27,16 @@ public class AdapterRecyclerAnGi extends RecyclerView.Adapter<AdapterRecyclerAnG
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenQuanAn1;
+        TextView txtTenQuanAn2;
         public ViewHolder(View itemView) {
             super(itemView);
+            // find id textView/ control
             txtTenQuanAn1 = itemView.findViewById(R.id.txtTenQuanAn1);
+            txtTenQuanAn2 = itemView.findViewById(R.id.txtTenQuanAn2);
         }
     }
 
+    // khởi tạo ViewHolder
     @Override
         public AdapterRecyclerAnGi.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
@@ -43,7 +47,9 @@ public class AdapterRecyclerAnGi extends RecyclerView.Adapter<AdapterRecyclerAnG
         @Override
         public void onBindViewHolder(AdapterRecyclerAnGi.ViewHolder holder, int position) {
             QuanAnModel quanAnModel = quanAnModelList.get(position);
+            // set value for textView / control
             holder.txtTenQuanAn1.setText(quanAnModel.getTenquanan());
+            holder.txtTenQuanAn2.setText(quanAnModel.getTenquanan());
         }
 
         @Override

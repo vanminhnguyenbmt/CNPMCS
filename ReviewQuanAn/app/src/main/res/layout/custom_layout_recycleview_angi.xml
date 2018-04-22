@@ -30,6 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Bò né ốp la"
                 android:textColor="@color/colorTextTenMon"/>
 
@@ -46,6 +48,8 @@
                     android:id="@+id/txtTenQuanAn1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="Quán ăn số 1"
                     android:textColor="@color/colorTextTenQuan"
                     android:textStyle="bold" />
@@ -53,6 +57,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textSize="10sp"
                     android:textColor="@color/colorTextBinhLuan"
                     android:text="216 Linh Trung, Thủ Đức" />
@@ -86,6 +92,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:text="Công chúa ốc"
                         android:textColor="@color/colorTextTenUser"
                         android:textStyle="bold" />
@@ -121,6 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Vịt nướng"
                 android:textColor="@color/colorTextTenMon"/>
 
@@ -137,6 +147,8 @@
                     android:id="@+id/txtTenQuanAn2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="Quán ăn số 2"
                     android:textColor="@color/colorTextTenQuan"
                     android:textStyle="bold" />
@@ -145,6 +157,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/colorTextDiaChi"
                     android:text="216 Linh Trung, Thủ Đức" />
 
@@ -177,6 +191,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:text="Tiểu thư nấm"
                         android:textColor="@color/colorTextTenUser"
                         android:textStyle="bold" />

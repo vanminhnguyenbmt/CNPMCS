@@ -21,12 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
             android:contentDescription="@string/splash_icon"
             android:src="@drawable/splash_icon" />
 
         <EditText
-            android:id="@+id/edEmail"
+            android:id="@+id/edEmailDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#FFFFFF"
@@ -36,7 +35,7 @@
             android:textColor="#FFFFFF"/>
 
         <EditText
-            android:id="@+id/edPassword"
+            android:id="@+id/edPasswordDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#FFFFFF"
@@ -53,10 +52,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:background="@drawable/radius_button"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
             android:text="@string/dangnhap"
             android:textColor="#49B824" />
 
@@ -64,7 +59,7 @@
             android:id="@+id/layoutTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <View

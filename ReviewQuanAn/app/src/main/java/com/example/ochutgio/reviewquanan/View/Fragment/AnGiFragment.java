@@ -34,6 +34,7 @@ public class AnGiFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        // gọi hàm getdanhsachquanan của tầng controller
         anGiController = new AnGiController(getContext());
         anGiController.getDanhSachQuanAnController(recyclerAnGi);
     }

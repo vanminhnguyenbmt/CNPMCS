@@ -1,5 +1,6 @@
 package com.example.ochutgio.reviewquanan.Controller.Interface;
 
+import com.example.ochutgio.reviewquanan.Model.MonAnModel;
 import com.example.ochutgio.reviewquanan.Model.QuanAnModel;
 
 /**
@@ -7,5 +8,5 @@ import com.example.ochutgio.reviewquanan.Model.QuanAnModel;
  */
 
 public interface AnGiInterface {
-//    void getDanhSachQuanAnModel(QuanAnModel quanAnModel);
+    void getDanhSachMonAnModel(MonAnModel monAnModel);
 }
