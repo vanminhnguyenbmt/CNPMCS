@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutDangNhap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#49B824">
+    android:background="@color/colorPrimaryDark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,22 +27,22 @@
             android:id="@+id/edEmailDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FFFFFF"
-            android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableLeft="@drawable/identity_white_24"
             android:hint="@string/email"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"/>
+            android:textColorHint="@color/colorAccent"
+            android:textColor="@color/colorAccent"/>
 
         <EditText
             android:id="@+id/edPasswordDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FFFFFF"
-            android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableLeft="@drawable/lock_white_24"
             android:hint="@string/password"
-            android:password="true"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"/>
+            android:inputType="textPassword"
+            android:textColorHint="@color/colorAccent"
+            android:textColor="@color/colorAccent"/>
 
         <Button
             android:id="@+id/btnDangNhap"
@@ -53,10 +52,9 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/radius_button"
             android:text="@string/dangnhap"
-            android:textColor="#49B824" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
-            android:id="@+id/layoutTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -108,7 +106,6 @@
             app:com_facebook_login_text="@string/dangnhapbangfacebook" />
 
         <LinearLayout
-            android:id="@+id/layoutThree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

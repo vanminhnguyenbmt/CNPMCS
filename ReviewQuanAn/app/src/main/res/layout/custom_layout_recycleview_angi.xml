@@ -1,217 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@color/colorTrangChu">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorTrangChu"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal">
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/bo_ne_op_la" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Bò né ốp la"
+            android:textColor="@color/colorTextTenMon" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                app:srcCompat="@drawable/bo_ne_op_la"
-                android:scaleType="centerCrop"/>
-
             <TextView
+                android:id="@+id/txtTenQuanAn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:maxLines="1"
                 android:ellipsize="end"
-                android:text="Bò né ốp la"
-                android:textColor="@color/colorTextTenMon"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtTenQuanAn1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:text="Quán ăn số 1"
-                    android:textColor="@color/colorTextTenQuan"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorTextBinhLuan"
-                    android:text="216 Linh Trung, Thủ Đức" />
-
-            </LinearLayout>
+                android:maxLines="1"
+                android:text="Quán ăn số 1"
+                android:textColor="@color/colorTextTenQuan"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorTrangChu"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/girl_avatar"
-                    app:civ_border_color="@color/colorAccent"
-                    app:civ_border_width="1dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="Công chúa ốc"
-                        android:textColor="@color/colorTextTenUser"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="2d"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="216 Linh Trung, Thủ Đức"
+                android:textColor="@color/colorTextBinhLuan"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorTrangChu" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                app:srcCompat="@drawable/vit_nuong"
-                android:scaleType="centerCrop"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Vịt nướng"
-                android:textColor="@color/colorTextTenMon"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/girl_avatar"
+                app:civ_border_color="@color/colorAccent"
+                app:civ_border_width="1dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtTenQuanAn2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:text="Quán ăn số 2"
-                    android:textColor="@color/colorTextTenQuan"
-                    android:textStyle="bold" />
+                android:orientation="vertical"
+                android:paddingLeft="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:textColor="@color/colorTextDiaChi"
-                    android:text="216 Linh Trung, Thủ Đức" />
+                    android:maxLines="1"
+                    android:text="Công chúa ốc"
+                    android:textColor="@color/colorTextTenUser" />
 
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorTrangChu"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/girl_avatar"
-                    app:civ_border_color="@color/colorAccent"
-                    app:civ_border_width="1dp"/>
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="Tiểu thư nấm"
-                        android:textColor="@color/colorTextTenUser"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="7h"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
+                    android:text="2d"
+                    android:textSize="12sp" />
 
             </LinearLayout>
-
-
 
         </LinearLayout>
 
     </LinearLayout>
+
+</LinearLayout>
 
 
 

@@ -14,15 +14,17 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/txtDiemQuanAn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/cycle_backgroud"
                 android:gravity="center"
-                android:text="6.8"
+                android:text="5,0"
                 android:textColor="@color/colorAccent" />
 
             <LinearLayout
+                android:id="@+id/containerQuanAn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -39,6 +41,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/txtDiaChiQuanAn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -51,6 +54,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/txtKhoangCach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -63,22 +67,26 @@
             android:id="@+id/imgHinhQuanAn"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:background="@color/colorTrangChu"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
+            android:id="@+id/containerBinhLuan1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="5dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imvAvatar1"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/girl_avatar"
+                app:civ_circle_background_color="@color/colorTrangChu"
                 app:civ_border_color="@color/colorAccent"
                 app:civ_border_width="1dp"/>
 
             <TextView
+                android:id="@+id/txtBinhLuan1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -92,20 +100,23 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/containerBinhLuan2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="5dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imvAvatar2"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/girl_avatar"
+                app:civ_circle_background_color="@color/colorTrangChu"
                 app:civ_border_color="@color/colorAccent"
                 app:civ_border_width="1dp"/>
 
 
                 <TextView
+                    android:id="@+id/txtBinhLuan2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -124,38 +135,54 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/comments_gray"
-                android:layout_marginLeft="45dp"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:text="12"
-                android:textColor="#666"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/camera_gray"
-                android:drawablePadding="5dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center"
-                android:text="33"
-                android:textColor="#666"/>
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đang mở cửa"
-                android:textSize="10sp"
-                android:textColor="#666"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="45dp"
+                    android:background="@drawable/comments_gray"/>
+
+                <TextView
+                    android:id="@+id/txtTongBinhLuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0"
+                    android:textColor="#666"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/camera_gray"/>
+
+                <TextView
+                    android:id="@+id/txtTongHinhAnh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0"
+                    android:textColor="#666"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="Đang mở cửa"
+                    android:textSize="10sp"
+                    android:textColor="#666"/>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 

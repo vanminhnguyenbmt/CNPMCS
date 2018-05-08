@@ -5,32 +5,29 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_item1"
-            android:icon="@drawable/settings_0"
-            android:title="@string/caidat" />
+            android:icon="@drawable/user_64"
+            android:title="@string/hoso" />
         <item
             android:id="@+id/nav_item2"
-            android:icon="@drawable/help_64"
-            android:title="@string/hotro" />
+            android:icon="@drawable/settings_64"
+            android:title="@string/caidat" />
+
         <item
             android:id="@+id/nav_item3"
-            android:icon="@drawable/bell_64"
-            android:title="@string/thongbao" />
+            android:icon="@drawable/plus_64"
+            android:title="@string/themquanan" />
+
         <item
             android:id="@+id/nav_item4"
-            android:icon="@drawable/user_groups_64"
-            android:title="@string/congdong" />
+            android:icon="@drawable/bell_64"
+            android:title="@string/thongbao" />
 
         <item
             android:id="@+id/nav_item5"
-            android:icon="@drawable/speech_bubble_64"
-            android:title="@string/ngonngu" />
-        <item
-            android:id="@+id/nav_item6"
-            android:icon="@drawable/user_64"
-            android:title="@string/gioithieu" />
-        <item
-            android:id="@+id/nav_item7"
             android:icon="@drawable/exit_64"
             android:title="@string/dangxuat" />
+
+
+
     </group>
 </menu>

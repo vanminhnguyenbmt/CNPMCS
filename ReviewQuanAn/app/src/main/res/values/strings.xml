@@ -31,11 +31,11 @@
     <string name="langdaihoc">Làng đại học</string>
     <string name="dangxuat">Đăng xuất</string>
     <string name="caidat">Cài đặt</string>
-    <string name="gioithieu">Giới thiệu</string>
-    <string name="thongbao">Thông báo</string>
+    <string name="hoso">Hồ sơ</string>
+    <string name="themquanan">Thêm quán ăn</string>
     <string name="hotro">Hỗ trợ</string>
     <string name="ngonngu">Ngôn ngữ</string>
-    <string name="congdong">Cộng đồng</string>
-
+    <string name="thongbao">Thông báo</string>
+    <string name="mapapi_key">AIzaSyBkbgUbHNvH_6drCmpx6btkv7B8PoQjaIU</string>
 
 </resources>

@@ -2,8 +2,11 @@ package com.example.ochutgio.reviewquanan.View;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +31,11 @@ import com.example.ochutgio.reviewquanan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.InputStream;
+import java.net.URL;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by ochutgio on 4/3/2018.
  */
@@ -37,6 +45,7 @@ public class TrangChuActivity extends AppCompatActivity {
     ViewPager viewPagerTrangChu;
     DrawerLayout mDrawerLayout;
     ImageView imgLogo;
+    ImageView imgSearch;
     RadioGroup rbg_odau_angi;
 
     RadioButton rb_odau;
@@ -53,6 +62,7 @@ public class TrangChuActivity extends AppCompatActivity {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +72,7 @@ public class TrangChuActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         imgLogo = (ImageView)findViewById(R.id.imgLogo);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
         viewPagerTrangChu = (ViewPager) findViewById(R.id.viewpager_trangchu);
         rbg_odau_angi = (RadioGroup) findViewById(R.id.rbg_odau_angi);
 
@@ -83,6 +94,13 @@ public class TrangChuActivity extends AppCompatActivity {
             }
         });
 
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         // lắng nghe các sự kiện của menu
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -94,7 +112,9 @@ public class TrangChuActivity extends AppCompatActivity {
             public void onDrawerOpened(@NonNull View drawerView) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 TextView txtTenUser = (TextView) findViewById(R.id.txtTenUser);
+                ImageView imvProfile = (ImageView) findViewById(R.id.profile_image);
                 txtTenUser.setText(user.getDisplayName());
+                new DownLoadImageTask(imvProfile).execute(user.getPhotoUrl().toString());
             }
 
             @Override
@@ -113,10 +133,11 @@ public class TrangChuActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
-                if(item.getItemId() == R.id.nav_item7 ){
+                if(item.getItemId() == R.id.nav_item5 ){
                     FirebaseAuth.getInstance().signOut();
                     Intent iDangNhap = new Intent(TrangChuActivity.this, DangNhapActivity.class);
                     startActivity(iDangNhap);
+                    finish();
                 }
 
                 mDrawerLayout.closeDrawers();
@@ -292,5 +313,35 @@ public class TrangChuActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    /// hàm load imageview with url
+    private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
+        ImageView imageView;
+
+        public DownLoadImageTask(ImageView imageView){
+            this.imageView = imageView;
+        }
+
+        /*
+            doInBackground(Params... params)
+            Override this method to perform a computation on a background thread.
+         */
+        protected Bitmap doInBackground(String...urls){
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try{
+                InputStream is = new URL(urlOfImage).openStream();
+                logo = BitmapFactory.decodeStream(is);
+            }catch(Exception e){ // Catch the download exception
+                e.printStackTrace();
+            }
+            return logo;
+        }
+
+        protected void onPostExecute(Bitmap result){
+            imageView.setImageBitmap(result);
+        }
     }
 }

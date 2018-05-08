@@ -16,7 +16,8 @@ public class MonAnModel {
     long giatien;
     String hinhanh;
     String tenmon;
-    String tenquan;
+    String loaimonan;
+    String mamonan;
 
     DatabaseReference noteRoot;
 
@@ -48,14 +49,21 @@ public class MonAnModel {
         this.tenmon = tenmon;
     }
 
-    public String getTenquan() {
-        return tenquan;
+    public String getLoaimonan() {
+        return loaimonan;
     }
 
-    public void setTenquan(String tenquan) {
-        this.tenquan = tenquan;
+    public void setLoaimonan(String loaimonan) {
+        this.loaimonan = loaimonan;
     }
 
+    public String getMamonan() {
+        return mamonan;
+    }
+
+    public void setMamonan(String mamonan) {
+        this.mamonan = mamonan;
+    }
     public void getDanhSachMonAnModel(AnGiInterface anGiInterface){
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override

@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ochutgio.reviewquanan.Controller.DangKyController;
+import com.example.ochutgio.reviewquanan.Model.ThanhVienModel;
 import com.example.ochutgio.reviewquanan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +35,7 @@ public class DangKyActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,44 +52,66 @@ public class DangKyActivity extends AppCompatActivity {
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edEmail.getText().toString();
+                final String email = edEmail.getText().toString();
                 String matkhau1 = edPassword.getText().toString();
                 String matkhau2 = edRepeatPassword.getText().toString();
 
-                String loi = "";
-
                 progressDialog.setMessage("Đang xử lý");
-                progressDialog.show();
                 progressDialog.setIndeterminate(true);
 
                 if(email.trim().length() == 0 | matkhau1.trim().length() == 0){
-                    loi = "vui lòng nhập email hoặc password";
-                    Toast.makeText(DangKyActivity.this, loi, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DangKyActivity.this, "vui lòng nhập email hoặc password", Toast.LENGTH_SHORT).show();
                 }else {
-                    if(!matkhau1.equals(matkhau2)){
-                        loi = "Hai mật khẩu cần trùng nhau";
-                        Toast.makeText(DangKyActivity.this, loi, Toast.LENGTH_SHORT).show();
+                    if(!isEmail(email)){
+                        Toast.makeText(DangKyActivity.this, "địa chỉ mail không hợp lệ", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!matkhau1.equals(matkhau2)){
+                        Toast.makeText(DangKyActivity.this, "Hai mật khẩu cần trùng nhau", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         progressDialog.show();
-                        firebaseAuth.createUserWithEmailAndPassword(email, matkhau1).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        firebaseAuth.createUserWithEmailAndPassword(email, matkhau1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onSuccess(AuthResult authResult) {
-                                progressDialog.dismiss();
-                                firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(DangKyActivity.this, "Đăng ký thành công vui lòng xác thực email để đăng nhập", Toast.LENGTH_SHORT).show();
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                if(task.isSuccessful()){
+                                    progressDialog.dismiss();
+
+                                    String uid = task.getResult().getUser().getUid();
+
+                                    ThanhVienModel thanhVienModel = new ThanhVienModel();
+                                    thanhVienModel.setHoten(email);
+                                    thanhVienModel.setHinhanh("boy_avatar.jpg");
+
+                                    DangKyController dangKyController = new DangKyController();
+                                    dangKyController.ThemThanhVienController(thanhVienModel, uid);
+
+                                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+
+                                                Toast.makeText(DangKyActivity.this, "Đăng ký thành công vui lòng xác thực email để đăng nhập", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(DangKyActivity.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
+                                }
 
                             }
+
+
+
                         });
                     }
                 }
             }
         });
+    }
+
+    private boolean isEmail(String email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

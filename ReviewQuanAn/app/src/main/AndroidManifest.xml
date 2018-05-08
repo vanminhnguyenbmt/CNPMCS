@@ -3,22 +3,27 @@
     package="com.example.ochutgio.reviewquanan">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    
     <application
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/mapapi_key"/>
+
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
-        <activity android:name=".View.SplashScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".View.SplashScreenActivity" android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".View.DangNhapActivity" android:screenOrientation="portrait">
@@ -29,13 +34,36 @@
 
         </activity>
 
-        <activity android:name=".View.DangKyActivity" android:windowSoftInputMode="adjustResize">
+        <activity android:name=".View.DangKyActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize">
 
         </activity>
 
         <activity android:name=".View.QuenMatKhauActivity">
 
         </activity>
+
+        <activity android:name=".View.ChiTietQuanAnActivity">
+
+        </activity>
+
+        <activity android:name=".View.BinhLuanActivity">
+
+        </activity>
+
+        <activity android:name=".View.ChonHinhBinhLuanActivity">
+
+        </activity>
+
+        <activity android:name=".View.ThemQuanAnActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
     </application>
 
 </manifest>

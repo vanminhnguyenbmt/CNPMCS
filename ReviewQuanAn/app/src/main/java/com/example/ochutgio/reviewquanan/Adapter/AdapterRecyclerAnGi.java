@@ -27,12 +27,10 @@ public class AdapterRecyclerAnGi extends RecyclerView.Adapter<AdapterRecyclerAnG
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenQuanAn1;
-        TextView txtTenQuanAn2;
         public ViewHolder(View itemView) {
             super(itemView);
             // find id textView/ control
             txtTenQuanAn1 = itemView.findViewById(R.id.txtTenQuanAn1);
-            txtTenQuanAn2 = itemView.findViewById(R.id.txtTenQuanAn2);
         }
     }
 
@@ -49,7 +47,6 @@ public class AdapterRecyclerAnGi extends RecyclerView.Adapter<AdapterRecyclerAnG
             QuanAnModel quanAnModel = quanAnModelList.get(position);
             // set value for textView / control
             holder.txtTenQuanAn1.setText(quanAnModel.getTenquanan());
-            holder.txtTenQuanAn2.setText(quanAnModel.getTenquanan());
         }
 
         @Override

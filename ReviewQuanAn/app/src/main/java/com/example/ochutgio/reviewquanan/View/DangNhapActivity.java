@@ -2,6 +2,7 @@ package com.example.ochutgio.reviewquanan.View;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import com.example.ochutgio.reviewquanan.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -36,8 +36,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -58,6 +56,7 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
     CallbackManager callbackManager;
     FirebaseAuth firebaseAuth;
     LoginManager loginManager;
+    SharedPreferences sharedPreferences;
 
     ProgressDialog progressDialog;
 
@@ -73,8 +72,8 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         callbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
 
-        firebaseAuth.signOut();
-        loginManager.logOut();
+//        firebaseAuth.signOut();
+//        loginManager.logOut();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Đang đăng nhập");
@@ -91,10 +90,12 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         tvDangKy.setOnClickListener((View.OnClickListener) this);
         tvQuenMatKhau.setOnClickListener((View.OnClickListener) this);
         btnGoogleSignin.setOnClickListener((View.OnClickListener) this);
-        //btnFacebookLogin.setOnClickListener((View.OnClickListener) this);
+        btnFacebookLogin.setOnClickListener((View.OnClickListener) this);
         btnDangNhap.setOnClickListener((View.OnClickListener) this);
 
         khoiTaoGoogleClient();
+
+        sharedPreferences = getSharedPreferences("LuuDangNhap", MODE_PRIVATE);
 
         btnFacebookLogin.setReadPermissions("email", "public_profile");
         btnFacebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -160,18 +161,25 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         String email =  edEmail.getText().toString();
         String password = edPassword.getText().toString();
 
-        progressDialog.show();
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    progressDialog.dismiss();
-                    Toast.makeText(DangNhapActivity.this, "Email hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-                }else {
-                    progressDialog.dismiss();
+        if(email.trim().length() == 0 | password.trim().length() == 0){
+            Toast.makeText(DangNhapActivity.this, "vui lòng nhập email hoặc password", Toast.LENGTH_SHORT).show();
+        }else {
+            progressDialog.show();
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(!task.isSuccessful()){
+                        progressDialog.dismiss();
+                        Toast.makeText(DangNhapActivity.this, "Email hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                    }else {
+                        progressDialog.dismiss();
+                        Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
     }
 
     /// kết quả trả về sau khi hoàn thành các bước trong  popup đăng nhập google
@@ -249,8 +257,13 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if( user != null){
             if(user.isEmailVerified() == true){
+                Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("mauser", user.getUid());
+                editor.commit();
                 Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
                 startActivity(iTrangChu);
+                finish();
             }else {
                 Toast.makeText(DangNhapActivity.this, "Vui lòng xác thực email để thực hiện đăng nhập", Toast.LENGTH_SHORT).show();
             }

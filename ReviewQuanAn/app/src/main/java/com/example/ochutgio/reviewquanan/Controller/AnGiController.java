@@ -1,6 +1,8 @@
 package com.example.ochutgio.reviewquanan.Controller;
 
 import android.content.Context;
+import android.location.Location;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -23,16 +25,17 @@ public class AnGiController {
     AdapterRecyclerAnGi adapterRecyclerAnGi;
     List<QuanAnModel> quanAnModelList;
 
+
     public AnGiController(Context context){
         this.context = context;
         quanAnModel = new QuanAnModel();
     }
 
-    public void getDanhSachQuanAnController(RecyclerView recyclerAnGi){
+    public void getDanhSachQuanAnController(RecyclerView recyclerAnGi, Location vitrihientai){
 
         quanAnModelList  = new ArrayList<>();
         // set layout cho recyclerView
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context, 2);
         recyclerAnGi.setLayoutManager(layoutManager);
         // tạo adapterRecycleView và set adapter cho recyclerView
         adapterRecyclerAnGi = new AdapterRecyclerAnGi(quanAnModelList, R.layout.custom_layout_recycleview_angi);
@@ -46,7 +49,7 @@ public class AnGiController {
             }
         };
         // gọi hàm getdanhsachquanan của tầng model
-        quanAnModel.getDanhSachQuanAn(odauInterface);
+        quanAnModel.getDanhSachQuanAn(odauInterface, vitrihientai, 10, 0);
     }
 
 }

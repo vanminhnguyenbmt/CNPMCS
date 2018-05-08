@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="#FFFFFF"
-            android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
+            android:drawableLeft="@drawable/identity_white_24"
             android:hint="Nhập email"
             android:inputType="text"
             android:textColor="#FFFFFF"

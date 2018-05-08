@@ -10,4 +10,6 @@
     <color name="colorTextTenQuan">#333</color>
     <color name="colorTextTenMon">#333</color>
     <color name="colorTextTenUser">#333</color>
+    <color name="colorBackgroundToolbarChitietQuanAn">#CC333333</color>
+    <color name="colorTextToolbarChiTietQuanAn">#DDD</color>
 </resources>
