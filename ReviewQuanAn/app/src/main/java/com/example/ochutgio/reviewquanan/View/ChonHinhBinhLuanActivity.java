@@ -41,7 +41,7 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
     AdapterChonHinhBinhLuan adapterChonHinhBinhLuan;
 
     TextView txtXong;
-    ImageView imvGoiCamera;
+//    ImageView imvGoiCamera;
     RecyclerView recyclerChonHinh;
     Toolbar toolbar;
 
@@ -52,11 +52,11 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
 
         listDuongDan = new ArrayList<>();
         listDuocChon = new ArrayList<>();
-        listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG_20171203_033400.jpg") ;
-        listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG20171218164006.jpg") ;
+//        listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG_20171203_033400.jpg") ;
+//        listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG20171218164006.jpg") ;
 
         recyclerChonHinh = (RecyclerView) findViewById(R.id.recyclerChonHinh);
-        imvGoiCamera = (ImageView) findViewById(R.id.imvGoiCamera);
+//        imvGoiCamera = (ImageView) findViewById(R.id.imvGoiCamera);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         txtXong = (TextView)  findViewById(R.id.txtXong);
 
@@ -94,25 +94,26 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
             }
         });
 
-        imvGoiCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_IMVHINH);
-            }
-        });
-
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    //        imvGoiCamera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent, REQUEST_IMVHINH);
+//            }
+//        });
 
-        if(requestCode == REQUEST_IMVHINH){
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-//            imvTam.setImageBitmap(bitmap);
-        }
-    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == REQUEST_IMVHINH){
+//            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+////            imvTam.setImageBitmap(bitmap);
+//        }
+//    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -128,16 +129,15 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getAllImages();
             }
-        }else {
-            Log.d("killed", "ccc" );
         }
 
     }
 
     public void getAllImages(){
         String[] projection = {MediaStore.Images.Media.DATA};
+        String orderBy = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC";
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        Cursor cursor = getContentResolver().query(uri, projection, null, null,null);
+        Cursor cursor = getContentResolver().query(uri, projection, null, null,orderBy);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             String duongdan = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));

@@ -40,7 +40,8 @@ public class AdapterTatCaHinhAnh extends RecyclerView.Adapter<AdapterTatCaHinhAn
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.imvHinhAnh.setImageBitmap(listHinh.get(position));
+        Bitmap b = listHinh.get(position);
+        holder.imvHinhAnh.setImageBitmap(b);
         holder.imvHinhAnh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

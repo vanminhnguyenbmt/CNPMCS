@@ -75,7 +75,7 @@ public class TatCaHinhAnhActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(byte[] bytes) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        bitmapList.add(bitmap);
+                        bitmapList.add(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
                         progressDialog.dismiss();
                         AdapterTatCaHinhAnh adapter = new AdapterTatCaHinhAnh(TatCaHinhAnhActivity.this, R.layout.custom_layout_tatcahinhanh, bitmapList);
                         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(TatCaHinhAnhActivity.this, 3);

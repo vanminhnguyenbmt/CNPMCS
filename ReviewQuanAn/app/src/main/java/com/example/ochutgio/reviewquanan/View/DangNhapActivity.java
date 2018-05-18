@@ -79,7 +79,7 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         mCallbackFacebook = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
 
-        firebaseAuth.signOut();
+//        firebaseAuth.signOut();
         loginManager.logOut();
 
         progressDialog = new ProgressDialog(this);

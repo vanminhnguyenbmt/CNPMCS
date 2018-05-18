@@ -1,5 +1,7 @@
 package com.example.ochutgio.reviewquanan.Model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,7 +17,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 /**
@@ -142,9 +146,14 @@ public class BinhLuanModel implements Parcelable {
 
                     if(listHinh.size() > 0){
                         for(String valueHinh : listHinh){
+                            Bitmap bitmap = decodeFile(valueHinh);
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                            byte[] data = stream.toByteArray();
+
                             Uri uri = Uri.fromFile(new File(valueHinh));
                             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Photo/" + uri.getLastPathSegment());
-                            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            storageReference.putBytes(data).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
@@ -166,5 +175,34 @@ public class BinhLuanModel implements Parcelable {
             }
 
         }
+    }
+
+    /// hàm resize kích thước ảnh
+    private Bitmap decodeFile(String imgPath)
+    {
+        Bitmap b = null;
+        int max_size = 600;
+        File f = new File(imgPath);
+        try {
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            FileInputStream fis = new FileInputStream(f);
+            BitmapFactory.decodeStream(fis, null, o);
+            fis.close();
+            int scale = 1;
+            if (o.outHeight > max_size || o.outWidth > max_size)
+            {
+                scale = (int) Math.pow(2, (int) Math.ceil(Math.log(max_size / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+            }
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            fis = new FileInputStream(f);
+            b = BitmapFactory.decodeStream(fis, null, o2);
+            fis.close();
+        }
+        catch (Exception e)
+        {
+        }
+        return b;
     }
 }

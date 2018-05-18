@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.ochutgio.reviewquanan.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -52,9 +54,11 @@ public class AdapterHinhBinhLuanDuocChon extends RecyclerView.Adapter<AdapterHin
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        Uri uri = Uri.parse(listHinh.get(position));
-        Log.d("kiemtra", uri + "");
-        holder.imvChonHinh.setImageURI(uri);
+//        Uri uri = Uri.parse(listHinh.get(position));
+//        Log.d("kiemtra", uri + "");
+        File f = new File(listHinh.get(position));
+        Picasso.get().load(f).resize(100, 100).into(holder.imvChonHinh);
+        //holder.imvChonHinh.setImageURI(uri);
 
         holder.imvXoaHinh.setTag(position);
         holder.imvXoaHinh.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +73,8 @@ public class AdapterHinhBinhLuanDuocChon extends RecyclerView.Adapter<AdapterHin
 
     @Override
     public int getItemCount() {
-        return listHinh.size();
+        if(listHinh.size() > 12) return 12;
+        else return listHinh.size();
     }
 
 

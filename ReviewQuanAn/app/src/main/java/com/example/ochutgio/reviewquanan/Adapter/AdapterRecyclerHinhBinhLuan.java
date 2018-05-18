@@ -56,7 +56,8 @@ public class AdapterRecyclerHinhBinhLuan extends RecyclerView.Adapter<AdapterRec
 
     @Override
     public void onBindViewHolder(AdapterRecyclerHinhBinhLuan.ViewHolder holder, int position) {
-        holder.imvHinhBinhLuan.setImageBitmap(listHinh.get(position));
+        Bitmap b = listHinh.get(position);
+        holder.imvHinhBinhLuan.setImageBitmap(b);
         if(position == 3){
             int sohinhconlai = listHinh.size() - 4;
             if(sohinhconlai > 0){

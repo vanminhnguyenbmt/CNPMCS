@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterHinhBinhLuanDuocChon;
 import com.example.ochutgio.reviewquanan.Controller.BinhLuanController;
@@ -120,14 +121,18 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
                 String noidung = edNoiDungBinhLuan.getText().toString();
                 String mauser = sharedPreferences.getString("mauser", "");
 
-                binhLuanModel.setTieude(tieude);
-                binhLuanModel.setNoidung(noidung);
-                binhLuanModel.setChamdiem(0);
-                binhLuanModel.setLuotthich(0);
-                binhLuanModel.setMauser(mauser);
+                if(tieude.trim().length() == 0 | noidung.trim().length() == 0){
+                    Toast.makeText(BinhLuanActivity.this, "vui lòng điền đủ thông tin", Toast.LENGTH_SHORT).show();
+                }else {
+                    binhLuanModel.setTieude(tieude);
+                    binhLuanModel.setNoidung(noidung);
+                    binhLuanModel.setChamdiem(chamdiem);
+                    binhLuanModel.setLuotthich(0);
+                    binhLuanModel.setMauser(mauser);
 
-                binhLuanController.ThemBinhLuan(binhLuanModel, listHinhDaChon, maquanan);
-                finish();
+                    binhLuanController.ThemBinhLuan(binhLuanModel, listHinhDaChon, maquanan);
+                }
+
                 break;
         }
     }
@@ -139,6 +144,9 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
         if(requestCode == REQUESTCODE_CHONHINHBINHLUAN){
             if(resultCode == RESULT_OK){
                 listHinhDaChon = data.getStringArrayListExtra("listhinhdachon");
+                if(listHinhDaChon.size() > 12){
+                    Toast.makeText(BinhLuanActivity.this, "Chỉ hỗ trợ tối da 12 hình ảnh", Toast.LENGTH_SHORT).show();
+                }
                 adapterHinhBinhLuanDuocChon = new AdapterHinhBinhLuanDuocChon(this, R.layout.custom_layout_hinhbinhluan_dachon, listHinhDaChon);
                 recyclerHinhDuocChon.setAdapter(adapterHinhBinhLuanDuocChon);
                 adapterHinhBinhLuanDuocChon.notifyDataSetChanged();

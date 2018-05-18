@@ -13,7 +13,9 @@ import android.widget.ImageView;
 
 import com.example.ochutgio.reviewquanan.Model.ChonHinhBinhLuanModel;
 import com.example.ochutgio.reviewquanan.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -59,9 +61,15 @@ public class AdapterChonHinhBinhLuan extends RecyclerView.Adapter<AdapterChonHin
     public void onBindViewHolder(AdapterChonHinhBinhLuan.ViewHolder holder, final int position) {
 
         final ChonHinhBinhLuanModel chonHinhBinhLuanModel = listDuongDan.get(position);
-        Uri uri = Uri.parse(chonHinhBinhLuanModel.getDuongdan());
-        Log.d("kiemtra", uri + "");
-        holder.imvChonHinh.setImageURI(uri);
+//        Uri uri = Uri.parse(chonHinhBinhLuanModel.getDuongdan());
+//        Log.d("kiemtra", uri + "");
+        File f = new File(chonHinhBinhLuanModel.getDuongdan());
+        Picasso.get().load(f).resize(100, 100).into(holder.imvChonHinh);
+        Picasso.get()
+                .load(f)
+                .resize(100, 100)
+                .into(holder.imvChonHinh);
+        //holder.imvChonHinh.setImageURI(uri);
         holder.checkBoxChonHinh.setChecked(chonHinhBinhLuanModel.isCheck());
         holder.checkBoxChonHinh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +82,7 @@ public class AdapterChonHinhBinhLuan extends RecyclerView.Adapter<AdapterChonHin
 
     @Override
     public int getItemCount() {
-        return listDuongDan.size();
+         return listDuongDan.size();
     }
 
 }

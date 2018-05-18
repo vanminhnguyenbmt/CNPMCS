@@ -45,7 +45,7 @@
 
         <activity android:name=".View.ChiTietQuanAnActivity"></activity>
 
-        <activity android:name=".View.BinhLuanActivity" android:theme="@style/OtherAppTheme"></activity>
+        <activity android:name=".View.BinhLuanActivity" android:theme="@style/OtherAppTheme" android:windowSoftInputMode="adjustPan"></activity>
 
         <activity android:name=".View.ChonHinhBinhLuanActivity"></activity>
 

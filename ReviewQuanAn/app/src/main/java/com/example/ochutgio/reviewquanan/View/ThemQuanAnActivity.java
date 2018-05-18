@@ -234,10 +234,11 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
                 if(themThucDonModelList.size() > 0){
                     for(int i = 0; i < themThucDonModelList.size(); i++){
                         noteRoot.child("thucdonquanans").child(maquanan).child(themThucDonModelList.get(i).getMathucdon()).push().setValue(themThucDonModelList.get(i).getMonAnModel());
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         Bitmap bitmap = hinhmonanList.get(i);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] data = baos.toByteArray();
+                        Bitmap b = Bitmap.createScaledBitmap(bitmap, 480, 640, false);
+                        b.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] data = stream.toByteArray();
                         FirebaseStorage.getInstance().getReference().child("Photo/" + themThucDonModelList.get(i).getMonAnModel().getHinhanh()).putBytes(data);
                     }
                 }

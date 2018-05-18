@@ -97,7 +97,7 @@ public class AdapterBinhLuanQuanAn extends RecyclerView.Adapter<AdapterBinhLuanQ
             storageHinhBinhLuan.getBytes(ONE_MAGEBYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 100, bytes.length);
                     bitmapList.add(bitmap);
 
                     if(bitmapList.size() == binhLuanModel.getHinhanhBinhLuan().size()){
