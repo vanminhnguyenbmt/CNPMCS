@@ -6,11 +6,55 @@
     android:background="@color/colorAccent"
     android:layout_marginBottom="10dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerThucDon"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/menu"/>
+
+        <!--<ExpandableListView-->
+            <!--android:id="@+id/expanded_thucdon"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:groupIndicator="@null">-->
+
+        <!--</ExpandableListView>-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerThucDon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTrangChu"/>
+
+    <LinearLayout
+        android:id="@+id/KhungTienIch"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/share"/>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

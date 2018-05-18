@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="colorFacebook">#3f51b5</color>
     <color name="colorPrimaryDark">#49b824</color>
     <color name="colorAccent">#ffffff</color>
     <color name="colorTrangChu">#DCDDE2</color>
@@ -12,4 +15,5 @@
     <color name="colorTextTenUser">#333</color>
     <color name="colorBackgroundToolbarChitietQuanAn">#CC333333</color>
     <color name="colorTextToolbarChiTietQuanAn">#DDD</color>
+    <color name="colorTransparentHoSo">#80333333</color>
 </resources>

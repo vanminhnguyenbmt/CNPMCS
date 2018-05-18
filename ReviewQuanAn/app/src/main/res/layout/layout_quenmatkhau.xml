@@ -20,6 +20,7 @@
             android:layout_marginTop="30dp"
             android:text="@string/khoiphucmatkhau"
             android:textAlignment="center"
+            android:inputType="textEmailAddress"
             android:textColor="@color/colorAccent"
             android:textSize="24sp"
             android:textStyle="bold" />

@@ -8,6 +8,7 @@
     android:gravity="center"
     android:background="@color/colorPrimaryDark">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,18 +16,24 @@
         android:gravity="center_vertical"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
-        <ImageView
-            android:id="@+id/imgLogo"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
             android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/splash_icon"
-            android:src="@drawable/splash_icon" />
+            android:text="@string/application_name"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
 
         <EditText
             android:id="@+id/edEmailDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:backgroundTint="@color/colorAccent"
             android:drawableLeft="@drawable/identity_white_24"
             android:hint="@string/email"
@@ -50,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:background="@drawable/radius_button"
+            android:background="@color/colorAccent"
             android:text="@string/dangnhap"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -84,30 +91,36 @@
 
         </LinearLayout>
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btnGoogleSignin"
+        <Button
+            android:id="@+id/btnDangNhapGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:colorScheme="dark">
+            android:background="@color/colorAccent"
+            android:drawableLeft="@drawable/google"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/dangnhapbanggoogle"
+            android:textColor="@color/colorPrimaryDark" />
 
-        </com.google.android.gms.common.SignInButton>
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btnFacebookLogin"
+        <Button
+            android:id="@+id/btnDangNhapFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
             android:layout_marginTop="10dp"
-            android:paddingBottom="11dp"
-            android:paddingTop="11dp"
-            app:com_facebook_login_text="@string/dangnhapbangfacebook" />
+            android:background="@color/colorAccent"
+            android:drawableLeft="@drawable/facebook"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Đăng nhập bằng facebook"
+            android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView

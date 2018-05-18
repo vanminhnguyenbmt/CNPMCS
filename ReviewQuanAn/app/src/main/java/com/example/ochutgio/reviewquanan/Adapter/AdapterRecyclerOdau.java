@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +17,16 @@ import com.example.ochutgio.reviewquanan.Model.ChiNhanhQuanAnModel;
 import com.example.ochutgio.reviewquanan.Model.QuanAnModel;
 import com.example.ochutgio.reviewquanan.R;
 import com.example.ochutgio.reviewquanan.View.ChiTietQuanAnActivity;
+import com.example.ochutgio.reviewquanan.View.TatCaBinhLuanActivity;
+import com.example.ochutgio.reviewquanan.View.TatCaHinhAnhActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,6 +56,7 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
         TextView txtDiemQuanAn;
         TextView txtDiaChiQuanAn;
         TextView txtKhoangCach;
+        TextView txtTrangThaiQuanAn;
 
         ImageView imgHinhQuanAn;
         CircleImageView imvAvatar1;
@@ -59,10 +65,11 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
         LinearLayout containerQuanAn;
         LinearLayout containerBinhLuan1;
         LinearLayout containerBinhLuan2;
+        LinearLayout containerBinhLuan;
+        LinearLayout containerHinhAnh;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             /// find id control in custom_recyclerView_odau
             txtTenQuanAnOdau = (TextView) itemView.findViewById(R.id.txtTenQuanAnOdau);
             txtBinhLuan1 = (TextView) itemView.findViewById(R.id.txtBinhLuan1);
@@ -72,6 +79,7 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             txtDiemQuanAn = (TextView) itemView.findViewById(R.id.txtDiemQuanAn);
             txtDiaChiQuanAn = (TextView) itemView.findViewById(R.id.txtDiaChiQuanAn);
             txtKhoangCach = (TextView) itemView.findViewById(R.id.txtKhoangCach);
+            txtTrangThaiQuanAn = (TextView) itemView.findViewById(R.id.txtTrangThaiQuanAn);
 
             imgHinhQuanAn = (ImageView) itemView.findViewById(R.id.imgHinhQuanAn);
             imvAvatar1 = (CircleImageView) itemView.findViewById(R.id.imvAvatar1);
@@ -80,6 +88,8 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             containerQuanAn = (LinearLayout) itemView.findViewById(R.id.containerQuanAn);
             containerBinhLuan1 = (LinearLayout) itemView.findViewById(R.id.containerBinhLuan1);
             containerBinhLuan2 = (LinearLayout) itemView.findViewById(R.id.containerBinhLuan2);
+            containerBinhLuan = (LinearLayout) itemView.findViewById(R.id.containerBinhLuan);
+            containerHinhAnh = (LinearLayout) itemView.findViewById(R.id.containerHinhAnh);
         }
     }
 
@@ -127,12 +137,12 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             /// Tính và hiển thị điểm trung bình và tổng số hình ảnh bình luận
             int tonghinhanh = 0;
             double tongdiem = 0;
-            for(BinhLuanModel binhLuanModeln: quanAnModel.getBinhluanquanan()){
+            for(BinhLuanModel binhLuanModeln : quanAnModel.getBinhluanquanan()){
                 tonghinhanh = tonghinhanh + binhLuanModeln.getHinhanhBinhLuan().size();
                 tongdiem = tongdiem + binhLuanModeln.getChamdiem();
             }
 
-            double diemtb = tongdiem/quanAnModel.getBinhluanquanan().size();
+            double diemtb = tongdiem / quanAnModel.getBinhluanquanan().size();
             holder.txtDiemQuanAn.setText(String.format("%.1f", diemtb));
             holder.txtTongHinhAnh.setText(tonghinhanh + "");
 
@@ -156,6 +166,26 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             holder.txtKhoangCach.setText(String.format("%.1f", chiNhanhQuanAnModelMin.getKhoangcach()) + "km");
         }
 
+        /// xử lý thời gian đóng mở cửa
+        Calendar calendar =  Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String giohientai = dateFormat.format(calendar.getTime());
+        String giommocua = quanAnModel.getGiomocua();
+        String giodongcua = quanAnModel.getGiodongcua();
+        try{
+            Date dateHienTai = dateFormat.parse(giohientai);
+            Date dateMoCua = dateFormat.parse(giommocua);
+            Date dateDongCua = dateFormat.parse(giodongcua);
+
+            if (dateHienTai.after(dateMoCua) && dateHienTai.before(dateDongCua)){
+                 holder.txtTrangThaiQuanAn.setText("Đang mở cửa");
+            }else {
+                holder.txtTrangThaiQuanAn.setText("Đã đóng cửa");
+            }
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
         /// chuyen intent chitietquanan
         holder.containerQuanAn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +193,29 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
                 Intent iChiTietQuanAn = new Intent(context, ChiTietQuanAnActivity.class);
                 iChiTietQuanAn.putExtra("quanan", quanAnModel);
                 context.startActivity(iChiTietQuanAn);
+            }
+        });
+
+        holder.containerBinhLuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(quanAnModel.getBinhluanquanan().size() > 0){
+                Intent iTatCaBinhLuan = new Intent(context, TatCaBinhLuanActivity.class);
+                iTatCaBinhLuan.putExtra("binhluanquanan", quanAnModel);
+                context.startActivity(iTatCaBinhLuan);
+            }
+
+            }
+        });
+
+        holder.containerHinhAnh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(Integer.parseInt(holder.txtTongHinhAnh.getText().toString()) > 0){
+                Intent iTatCaHinhAnh = new Intent(context, TatCaHinhAnhActivity.class);
+                iTatCaHinhAnh.putExtra("hinhanhquanan", quanAnModel);
+                context.startActivity(iTatCaHinhAnh);
+           }
             }
         });
     }

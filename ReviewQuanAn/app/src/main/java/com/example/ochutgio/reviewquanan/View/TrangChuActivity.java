@@ -50,9 +50,6 @@ public class TrangChuActivity extends AppCompatActivity {
 
     RadioButton rb_odau;
     RadioButton rb_angi;
-    RadioButton rb_tabmoinhat;
-    RadioButton rb_tabdanhmuc;
-    RadioButton rb_tabkhuvuc;
 
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -78,9 +75,7 @@ public class TrangChuActivity extends AppCompatActivity {
 
         rb_angi = (RadioButton) findViewById(R.id.rb_angi);
         rb_odau = (RadioButton) findViewById(R.id.rb_odau);
-        rb_tabmoinhat = (RadioButton) findViewById(R.id.rb_tabmoinhat);
-        rb_tabdanhmuc = (RadioButton) findViewById(R.id.rb_tabdanhmuc);
-        rb_tabkhuvuc = (RadioButton) findViewById(R.id.rb_tabkhuvuc);
+
 
         /// set adapter cho viewpager
         AdapterViewPagerTrangchu adapterViewPagerTrangchu = new AdapterViewPagerTrangchu(getSupportFragmentManager());
@@ -97,35 +92,33 @@ public class TrangChuActivity extends AppCompatActivity {
         imgSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent iTimKiem = new Intent(TrangChuActivity.this, TimKiemActivity.class);
+                startActivity(iTimKiem);
             }
         });
 
         // lắng nghe các sự kiện của menu
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-            }
-
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
             @Override
             public void onDrawerOpened(@NonNull View drawerView) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 TextView txtTenUser = (TextView) findViewById(R.id.txtTenUser);
                 ImageView imvProfile = (ImageView) findViewById(R.id.profile_image);
-                txtTenUser.setText(user.getDisplayName());
-                new DownLoadImageTask(imvProfile).execute(user.getPhotoUrl().toString());
-            }
+                if(user.getDisplayName() != null){
+                    txtTenUser.setText(user.getDisplayName());
+                }
+                if(user.getPhotoUrl() != null){
+                    new DownLoadImageTask(imvProfile).execute(user.getPhotoUrl().toString());
+                }
 
+            }
             @Override
-            public void onDrawerClosed(@NonNull View drawerView) {
-
-            }
-
+            public void onDrawerClosed(@NonNull View drawerView) {}
             @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
+            public void onDrawerStateChanged(int newState) {}
         });
 
         /// sự kiện click vào item menu
@@ -133,11 +126,29 @@ public class TrangChuActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
-                if(item.getItemId() == R.id.nav_item5 ){
-                    FirebaseAuth.getInstance().signOut();
-                    Intent iDangNhap = new Intent(TrangChuActivity.this, DangNhapActivity.class);
-                    startActivity(iDangNhap);
-                    finish();
+                switch (item.getItemId()) {
+                    case R.id.nav_item5:
+                        FirebaseAuth.getInstance().signOut();
+                        Intent iDangNhap = new Intent(TrangChuActivity.this, DangNhapActivity.class);
+                        startActivity(iDangNhap);
+                        finish();
+                        break;
+
+                    case R.id.nav_item4:
+                        break;
+
+                    case R.id.nav_item3:
+                        Intent iThemQuanAn = new Intent(TrangChuActivity.this, ThemQuanAnActivity.class);
+                        startActivity(iThemQuanAn);
+                        break;
+
+                    case R.id.nav_item2:
+                        break;
+
+                    case R.id.nav_item1:
+//                        Intent iHoSo = new Intent(TrangChuActivity.this, HoSoActivity.class);
+//                        startActivity(iHoSo);
+                        break;
                 }
 
                 mDrawerLayout.closeDrawers();
@@ -146,133 +157,6 @@ public class TrangChuActivity extends AppCompatActivity {
             }
         });
 
-
-        /// gọi popup khi click vào tab mới nhất
-        rb_tabmoinhat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final View popupView = getLayoutInflater().inflate(R.layout.popup_moinhat, null);
-
-                RadioGroup rbgroup_tabmoinhat = (RadioGroup) popupView.findViewById(R.id.rbgroup_tab_moinhat);
-                /// set text cho rbg_tabmoinhat theo text trong radiobutton được chọn
-                rbgroup_tabmoinhat.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        switch (i){
-                            case R.id.rb_moinhat:
-                                RadioButton rb_moinhat = (RadioButton) popupView.findViewById(R.id.rb_moinhat);
-                                rb_tabmoinhat.setText(rb_moinhat.getText().toString());
-                                break;
-                            case R.id.rb_gantoi:
-                                RadioButton rb_gantoi = (RadioButton) popupView.findViewById(R.id.rb_gantoi);
-                                rb_tabmoinhat.setText(rb_gantoi.getText().toString());
-                                break;
-                            case R.id.rb_giaohang:
-                                RadioButton rb_giaohang = (RadioButton) popupView.findViewById(R.id.rb_giaohang);
-                                rb_tabmoinhat.setText(rb_giaohang.getText().toString());
-                                break;
-                            case R.id.rb_khuyenmai:
-                                RadioButton rb_khuyenmai =(RadioButton) popupView.findViewById(R.id.rb_khuyenmai);
-                                rb_tabmoinhat.setText(rb_khuyenmai.getText().toString());
-                                break;
-                        }
-                    }
-                });
-                /// khởi tạo popup
-                PopupWindow popupWindow = new PopupWindow(popupView);
-                popupWindow.setWidth(getScreenWidth());
-                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setAnimationStyle(R.style.popup_fade_in_out);
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100,255,255,255)));
-                popupWindow.setFocusable(true);
-                popupWindow.setOutsideTouchable(true);
-                //popupWindow.update();
-                /// Show popup window offset 1,1 to tabRadioGroup.
-                popupWindow.showAsDropDown(rb_tabmoinhat, 0, 0);
-
-            }
-        });
-
-        /// gọi popup khi click vào tab danh mục
-        rb_tabdanhmuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final View popupView = getLayoutInflater().inflate(R.layout.popup_danhmuc, null);
-                RadioGroup rbgroup_tabdanhmuc = (RadioGroup) popupView.findViewById(R.id.rbgroup_tab_danhmuc);
-                /// set text cho rbg_tabdanhmuc theo text trong radiobutton được chọn
-                rbgroup_tabdanhmuc.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        switch (i){
-                            case R.id.rb_hot:
-                                RadioButton rb_moinhat = (RadioButton) popupView.findViewById(R.id.rb_hot);
-                                rb_tabdanhmuc.setText(rb_moinhat.getText().toString());
-                                break;
-                            case R.id.rb_dacsan:
-                                RadioButton rb_gantoi = (RadioButton) popupView.findViewById(R.id.rb_dacsan);
-                                rb_tabdanhmuc.setText(rb_gantoi.getText().toString());
-                                break;
-                            case R.id.rb_monlau:
-                                RadioButton rb_giaohang = (RadioButton) popupView.findViewById(R.id.rb_monlau);
-                                rb_tabdanhmuc.setText(rb_giaohang.getText().toString());
-                                break;
-                            case R.id.rb_monnuong:
-                                RadioButton rb_khuyenmai =(RadioButton) popupView.findViewById(R.id.rb_monnuong);
-                                rb_tabdanhmuc.setText(rb_khuyenmai.getText().toString());
-                                break;
-                        }
-                    }
-                });
-                /// khởi tạo popup
-                PopupWindow popupWindow = new PopupWindow(popupView);
-                popupWindow.setWidth(getScreenWidth());
-                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100,255,255,255)));
-                popupWindow.setAnimationStyle(R.style.popup_fade_in_out);
-                popupWindow.setFocusable(true);
-                popupWindow.setOutsideTouchable(true);
-                //popupWindow.update();
-                /// Show popup window offset 1,1 to tabRadioGroup.
-                popupWindow.showAsDropDown(rb_tabmoinhat, 0, 0);
-            }
-        });
-
-        /// gọi popup khi click vào tab khu vực
-        rb_tabkhuvuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final View popupView = getLayoutInflater().inflate(R.layout.popup_khuvuc, null);
-
-                RadioGroup rbgroup_tabkhuvuc = (RadioGroup) popupView.findViewById(R.id.rbgroup_tab_khuvuc);
-                rbgroup_tabkhuvuc.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        switch (i){
-                            case R.id.rb_langdaihoc:
-                                RadioButton rb_moinhat = (RadioButton) popupView.findViewById(R.id.rb_langdaihoc);
-                                rb_tabkhuvuc.setText(rb_moinhat.getText().toString());
-                                break;
-                            case R.id.rb_thuduc:
-                                RadioButton rb_gantoi = (RadioButton) popupView.findViewById(R.id.rb_thuduc);
-                                rb_tabkhuvuc.setText(rb_gantoi.getText().toString());
-                                break;
-
-                        }
-                    }
-                });
-                /// khởi tạo popup
-                PopupWindow popupWindow = new PopupWindow(popupView);
-                popupWindow.setWidth(getScreenWidth());
-                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100,255,255,255)));
-                popupWindow.setAnimationStyle(R.style.popup_fade_in_out);
-                popupWindow.setFocusable(true);
-                popupWindow.setOutsideTouchable(true);
-                //popupWindow.update();
-                /// Show popup window offset 1,1 to tabRadioGroup.
-                popupWindow.showAsDropDown(rb_tabmoinhat, 0, 0);
-            }
-        });
 
         /// set fragment vào viewPager
         viewPagerTrangChu.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

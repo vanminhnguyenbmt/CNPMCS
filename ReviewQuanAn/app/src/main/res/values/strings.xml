@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">ReviewQuanAn</string>
+    <string name="app_name">YourFood</string>
     <string name="facebook_app_id">369198963584775</string>
+    <string name="fb_login_protocol_scheme">fb369198963584775</string>
     <string name="splash_icon">A splash icon</string>
     <string name="email">Email</string>
     <string name="password">Mật khẩu</string>

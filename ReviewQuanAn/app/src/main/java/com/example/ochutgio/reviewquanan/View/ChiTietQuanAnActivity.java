@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -71,6 +72,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     VideoView videoTrailer;
     ImageView imvHinhAnhQuanAn;
     ImageView imvPlayVideo;
+    ExpandableListView expanded_thucdon;
     RecyclerView recyclerBinhLuanQuanAn;
     RecyclerView recyclerThucDon;
     Toolbar toolbar;
@@ -111,6 +113,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         nestedScrollChiTietQuanAn = (NestedScrollView) findViewById(R.id.nestScrollViewChiTietQuanAn);
         imvHinhAnhQuanAn = (ImageView) findViewById(R.id.imvHinhAnhQuanAn);
         imvPlayVideo = (ImageView) findViewById(R.id.imvPlayVideo);
+       // expanded_thucdon = (ExpandableListView) findViewById(R.id.expanded_thucdon) ;
         recyclerBinhLuanQuanAn = (RecyclerView) findViewById(R.id.recyclerBinhLuan) ;
         recyclerThucDon = (RecyclerView) findViewById(R.id.recyclerThucDon);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -138,7 +141,6 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         }
 
         HienThiChiTietQuanAn();
-
 
         /// sự kiện click button bình luận
         btnBinhLuan.setOnClickListener(new View.OnClickListener() {
@@ -184,22 +186,34 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         nestedScrollChiTietQuanAn.smoothScrollTo(0,0);
         txtTenQuanAn.setText(quanAnModel.getTenquanan());
         txtTenQuanAnChiTiet.setText(quanAnModel.getTenquanan());
-        txtTongSoHinhAnhQuanAn.setText(quanAnModel.getHinhanhquanan().size() + "");
-        txtTongSoBinhLuanQuanAn.setText(quanAnModel.getBinhluanquanan().size() + "");
+
         txtThoiGianHoatDong.setText(quanAnModel.getGiomocua() + " - " + quanAnModel.getGiodongcua());
         if( quanAnModel.getGiatoida() != 0 && quanAnModel.getGiatoithieu() != 0){
-            txtQuangGia.setText(quanAnModel.getGiatoithieu() + "đ - " + quanAnModel.getGiatoida() + "đ");
+            txtQuangGia.setText(quanAnModel.getGiatoithieu() + "VNĐ - " + quanAnModel.getGiatoida() + "VNĐ");
         }
 
-        /// tính điểm trung bình quán ăn
-        int tonghinhanh = 0;
-        double tongdiem = 0;
-        for(BinhLuanModel binhLuanModel: quanAnModel.getBinhluanquanan()){
-            tonghinhanh = tonghinhanh + binhLuanModel.getHinhanhBinhLuan().size();
-            tongdiem = tongdiem + binhLuanModel.getChamdiem();
+        if(quanAnModel.getBinhluanquanan() != null){
+            txtTongSoBinhLuanQuanAn.setText(quanAnModel.getBinhluanquanan().size() + "");
+
+            /// tính điểm trung bình quán ăn
+            int tonghinhanh = 0;
+            double tongdiem = 0;
+            for(BinhLuanModel binhLuanModel: quanAnModel.getBinhluanquanan()){
+                tonghinhanh = tonghinhanh + binhLuanModel.getHinhanhBinhLuan().size();
+                tongdiem = tongdiem + binhLuanModel.getChamdiem();
+            }
+            double diemtb = tongdiem/quanAnModel.getBinhluanquanan().size();
+            txtTongSoHinhAnhQuanAn.setText(tonghinhanh + "");
+            txtDiemQuanAnChiTiet.setText(String.format("%.1f", diemtb));
+
+            /// lấy bình luận quán ăn
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerBinhLuanQuanAn.setLayoutManager(layoutManager);
+            adapterBinhLuanQuanAn = new AdapterBinhLuanQuanAn(this, R.layout.custom_layout_binhluanquanan, quanAnModel.getBinhluanquanan());
+            recyclerBinhLuanQuanAn.setAdapter(adapterBinhLuanQuanAn);
+            adapterBinhLuanQuanAn.notifyDataSetChanged();
+
         }
-        double diemtb = tongdiem/quanAnModel.getBinhluanquanan().size();
-        txtDiemQuanAnChiTiet.setText(String.format("%.1f", diemtb));
 
         /// lấy video của quán ăn
         if(quanAnModel.getVideogioithieu() != null){
@@ -244,14 +258,10 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             }
         });
 
-        /// lấy bình luận quán ăn
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerBinhLuanQuanAn.setLayoutManager(layoutManager);
-        adapterBinhLuanQuanAn = new AdapterBinhLuanQuanAn(this, R.layout.custom_layout_binhluanquanan, quanAnModel.getBinhluanquanan());
-        recyclerBinhLuanQuanAn.setAdapter(adapterBinhLuanQuanAn);
-        adapterBinhLuanQuanAn.notifyDataSetChanged();
 
         DownLoadHinhTienIch();
+
+        /// lấy thực đơn quán ăn
         thucDonController.getThucDonQuanAn(this, quanAnModel.getMaquanan(), recyclerThucDon);
 
     }
@@ -267,38 +277,40 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
     private  void DownLoadHinhTienIch(){
 
-        for(String matienich : quanAnModel.getTienich()){
+        if(quanAnModel.getTienich() != null){
 
-            DatabaseReference noteTienIch = FirebaseDatabase.getInstance().getReference().child("quanlytienichs").child(matienich);
-            noteTienIch.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    TienIchModel tienIchModel = dataSnapshot.getValue(TienIchModel.class);
-                    StorageReference storageHinhTienIch = FirebaseStorage.getInstance().getReference().child("ExtendService").child(tienIchModel.getHinhtienich());
-                    storageHinhTienIch.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            ImageView imvHinhTienIch = new ImageView(ChiTietQuanAnActivity.this);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
-                            layoutParams.setMargins(5, 5, 5,5);
-                            layoutParams.weight = 1;
-                            imvHinhTienIch.setLayoutParams(layoutParams);
-                            imvHinhTienIch.setImageBitmap(bitmap);
-                            KhungTienIch.addView(imvHinhTienIch);
-                        }
-                    });
-                }
+            for(String matienich : quanAnModel.getTienich()){
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                DatabaseReference noteTienIch = FirebaseDatabase.getInstance().getReference().child("quanlytienichs").child(matienich);
+                noteTienIch.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        TienIchModel tienIchModel = dataSnapshot.getValue(TienIchModel.class);
+                        StorageReference storageHinhTienIch = FirebaseStorage.getInstance().getReference().child("ExtendService").child(tienIchModel.getHinhtienich());
+                        storageHinhTienIch.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                ImageView imvHinhTienIch = new ImageView(ChiTietQuanAnActivity.this);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
+                                layoutParams.setMargins(5, 5, 5,5);
+                                layoutParams.weight = 1;
+                                imvHinhTienIch.setLayoutParams(layoutParams);
+                                imvHinhTienIch.setImageBitmap(bitmap);
+                                KhungTienIch.addView(imvHinhTienIch);
+                            }
+                        });
+                    }
 
-                }
-            });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-
+                    }
+                });
+                ///
+            }
+            ///
         }
-
 
     }
 

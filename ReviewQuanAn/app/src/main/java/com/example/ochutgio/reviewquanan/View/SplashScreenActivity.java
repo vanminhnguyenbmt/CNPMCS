@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.location.Location;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +23,9 @@ import com.example.ochutgio.reviewquanan.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class SplashScreenActivity extends AppCompatActivity implements OnSuccessListener {
 
@@ -33,6 +39,8 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splashscreen);
 
+        getHashkey();
+
         sharedPreferences = getSharedPreferences("toado", MODE_PRIVATE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -45,8 +53,6 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
 
         } else {
-
-            Toast.makeText(this, "ccc", Toast.LENGTH_SHORT).show();
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -57,7 +63,7 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
                                 editor.putString("latitude", String.valueOf(location.getLatitude()));
                                 editor.putString("longitude",String.valueOf(location.getLongitude()));
                                 editor.commit();
-                                Toast.makeText(SplashScreenActivity.this, "đéo null", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SplashScreenActivity.this, "ok", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Toast.makeText(SplashScreenActivity.this, "null", Toast.LENGTH_SHORT).show();
@@ -130,5 +136,22 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
     @Override
     public void onSuccess(Object o) {
 
+    }
+
+    public void getHashkey(){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+
+                Log.i("Base64", Base64.encodeToString(md.digest(),Base64.NO_WRAP));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d("Name not found", e.getMessage(), e);
+
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("Error", e.getMessage(), e);
+        }
     }
 }

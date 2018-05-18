@@ -22,7 +22,7 @@
             android:id="@+id/txtDangBinhLuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_gravity="right"
             android:textColor="@color/colorAccent"
             android:text="ĐĂNG"/>
@@ -43,7 +43,7 @@
             android:textColor="@color/colorTextTenQuan"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="Gosi House"/>
+            android:text="Bánh xèo áp chảo - bánh bèo nhân tôm"/>
 
         <TextView
             android:id="@+id/txtDiaChi"
@@ -53,18 +53,84 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/edTieuDeBinhLuan"
+    <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:padding="5dp"
-        android:hint="Tiêu đề" />
+        android:background="#FFF"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiêu đề:"/>
+
+        <EditText
+            android:id="@+id/edTieuDeBinhLuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@color/colorAccent"
+            android:text="" />
+
+    </LinearLayout>
+
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorTrangChu"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Chấm điểm:"/>
+
+        <SeekBar
+            android:id="@+id/sbChamDiem"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:max="10"
+            android:progress="5" />
+
+        <TextView
+            android:id="@+id/txtDiem"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
+            android:text="5 đ"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTrangChu"/>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nội dung:"/>
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/edNoiDungBinhLuan"
@@ -74,7 +140,7 @@
         android:background="@color/colorAccent"
         android:gravity="top"
         android:layout_weight="1"
-        android:hint="Vui lòng viết bình luận trên 100 từ, ngôn từ có văn hóa, không spam." />
+        android:hint="Vui lòng viết bình luận trên 10 từ, ngôn từ có văn hóa, không spam." />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerHinhDuocChon"
@@ -95,20 +161,6 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/camera_gray"
-            android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/btnGanThe"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/tag_gray"
-            android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/btnDanhGia"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/star_gray"
             android:layout_weight="1"/>
 
     </LinearLayout>

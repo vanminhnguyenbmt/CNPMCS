@@ -26,13 +26,12 @@ public class ThucDonController {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-
         ThucDonInterface thucDonInterface = new ThucDonInterface(){
             @Override
             public void getThucDonThanhCong(List<ThucDonModel> thucDonModelList) {
-                AdapterThucDon adapterThucDon = new AdapterThucDon(context, thucDonModelList);
-                recyclerView.setAdapter(adapterThucDon);
-                adapterThucDon.notifyDataSetChanged();
+                AdapterThucDon expandAdapter = new AdapterThucDon(context, thucDonModelList);
+                recyclerView.setAdapter(expandAdapter);
+                expandAdapter.notifyDataSetChanged();
             }
         };
 

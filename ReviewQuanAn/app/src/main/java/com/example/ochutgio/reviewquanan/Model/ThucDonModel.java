@@ -1,5 +1,7 @@
 package com.example.ochutgio.reviewquanan.Model;
 
+import android.util.Log;
+
 import com.example.ochutgio.reviewquanan.Controller.Interface.ThucDonInterface;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,9 +71,12 @@ public class ThucDonModel {
                                 MonAnModel monAnModel = valueMonAn.getValue(MonAnModel.class);
                                 monAnModel.setMamonan(valueMonAn.getKey());
                                 monAnModelList.add(monAnModel);
+                                Log.d("kiemtra", monAnModel.getTenmon());
                             }
                             thucDonModel.setMonAnModelList(monAnModelList);
                             thucDonModelList.add(thucDonModel);
+
+                            Log.d("kiemtra", thucDonModelList.size() + "");
                             thucDonInterface.getThucDonThanhCong(thucDonModelList);
                         }
 

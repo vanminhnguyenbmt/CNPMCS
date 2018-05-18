@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterChonHinhBinhLuan;
@@ -32,11 +34,14 @@ import java.util.List;
 
 public class ChonHinhBinhLuanActivity extends AppCompatActivity {
 
+    final int REQUEST_IMVHINH = 111;
+
     List<ChonHinhBinhLuanModel> listDuongDan;
     List<String> listDuocChon;
     AdapterChonHinhBinhLuan adapterChonHinhBinhLuan;
 
     TextView txtXong;
+    ImageView imvGoiCamera;
     RecyclerView recyclerChonHinh;
     Toolbar toolbar;
 
@@ -51,6 +56,7 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
         listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG20171218164006.jpg") ;
 
         recyclerChonHinh = (RecyclerView) findViewById(R.id.recyclerChonHinh);
+        imvGoiCamera = (ImageView) findViewById(R.id.imvGoiCamera);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         txtXong = (TextView)  findViewById(R.id.txtXong);
 
@@ -59,6 +65,12 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
         adapterChonHinhBinhLuan = new AdapterChonHinhBinhLuan(this, R.layout.custom_layout_chonhinhbinhluan, listDuongDan);
         recyclerChonHinh.setAdapter(adapterChonHinhBinhLuan);
 
+        // set toolbar
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /// xin quyền đọc dữ liệu bộ nhớ ngoài
         int checkReadStorePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         if(checkReadStorePermission != PackageManager.PERMISSION_GRANTED){
            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
@@ -82,9 +94,24 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
             }
         });
 
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        imvGoiCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_IMVHINH);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_IMVHINH){
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+//            imvTam.setImageBitmap(bitmap);
+        }
     }
 
     @Override

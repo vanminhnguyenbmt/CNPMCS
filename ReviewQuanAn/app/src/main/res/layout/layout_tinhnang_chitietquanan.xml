@@ -5,27 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="150dp">
+        android:layout_height="wrap_content">
 
         <fragment
             android:id="@+id/mapQuanAn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="180dp"
             android:name="com.google.android.gms.maps.MapFragment" />
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="230dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="5dp"
             android:background="#E6FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_marginBottom="5dp">
 
                 <ImageView
@@ -101,35 +102,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="00,000đ - 00,000đ"
+                    android:text="0,0 VNĐ - 0,0 VNĐ"
                     android:textColor="@color/colorTextBinhLuan"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorTrangChu"/>
-
-    <LinearLayout
-        android:id="@+id/KhungTienIch"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/share"/>
-
-
     </LinearLayout>
-
 
 </LinearLayout>

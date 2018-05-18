@@ -68,67 +68,11 @@
             app:srcCompat="@drawable/search_50" />
     </android.support.v7.widget.Toolbar>
 
-        <RadioGroup
-        android:id="@+id/rbgroup_tab_trangchu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/colorAccent">
-
-        <RadioButton
-            android:id="@+id/rb_tabmoinhat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:button="@android:color/transparent"
-            android:text="@string/tab_moinhat"
-            android:textColor="@drawable/changetextcolor_tab_trangchu"
-            android:textAlignment="center"
-            android:drawableBottom="@drawable/arrow_down_10"
-            android:layout_weight="1"
-            android:padding="5dp"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorTrangChu"/>
-
-
-
-        <RadioButton
-            android:id="@+id/rb_tabdanhmuc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@android:color/transparent"
-            android:textColor="@drawable/changetextcolor_tab_trangchu"
-            android:textAlignment="center"
-            android:drawableBottom="@drawable/arrow_down_10"
-            android:text="@string/tab_danhmuc"
-            android:layout_weight="1"
-            android:padding="5dp"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorTrangChu"/>
-
-        <RadioButton
-            android:id="@+id/rb_tabkhuvuc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@android:color/transparent"
-            android:textAlignment="center"
-            android:textColor="@drawable/changetextcolor_tab_trangchu"
-            android:drawableBottom="@drawable/arrow_down_10"
-            android:text="@string/tab_khuvuc"
-            android:layout_weight="1"
-            android:padding="5dp"/>
-    </RadioGroup>
-
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager_trangchu"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
             android:background="@color/colorTrangChu">
 
 

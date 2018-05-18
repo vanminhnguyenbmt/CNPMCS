@@ -1,11 +1,13 @@
 package com.example.ochutgio.reviewquanan.Adapter;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ochutgio.reviewquanan.Model.ThucDonModel;
@@ -29,7 +31,8 @@ public class AdapterThucDon extends RecyclerView.Adapter<AdapterThucDon.ViewHold
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        ImageView imvMenuPlus;
+        ImageView imvMenuDown;
         TextView txtTenThucDon;
         RecyclerView recyclerMonAn;
 
@@ -37,6 +40,8 @@ public class AdapterThucDon extends RecyclerView.Adapter<AdapterThucDon.ViewHold
             super(itemView);
             txtTenThucDon = (TextView) itemView.findViewById(R.id.txtTenThucDon);
             recyclerMonAn = (RecyclerView) itemView.findViewById(R.id.recyclerMonAn);
+            imvMenuDown = (ImageView) itemView.findViewById(R.id.imvMenuDown);
+            imvMenuPlus = (ImageView) itemView.findViewById(R.id.imvMenuPlus);
         }
     }
 
@@ -48,13 +53,31 @@ public class AdapterThucDon extends RecyclerView.Adapter<AdapterThucDon.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(AdapterThucDon.ViewHolder holder, int position) {
+    public void onBindViewHolder(final AdapterThucDon.ViewHolder holder, int position) {
         ThucDonModel thucDonModel = thucDonModelList.get(position);
         holder.txtTenThucDon.setText(thucDonModel.getTenthucdon());
         holder.recyclerMonAn.setLayoutManager(new LinearLayoutManager(context));
         AdapterMonAn adapterMonAn = new AdapterMonAn(context, thucDonModel.getMonAnModelList());
         holder.recyclerMonAn.setAdapter(adapterMonAn);
         adapterMonAn.notifyDataSetChanged();
+
+        holder.imvMenuPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.imvMenuPlus.setVisibility(View.GONE);
+                holder.imvMenuDown.setVisibility(View.VISIBLE);
+                holder.recyclerMonAn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.imvMenuDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.recyclerMonAn.setVisibility(View.GONE);
+                holder.imvMenuDown.setVisibility(View.GONE);
+                holder.imvMenuPlus.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override

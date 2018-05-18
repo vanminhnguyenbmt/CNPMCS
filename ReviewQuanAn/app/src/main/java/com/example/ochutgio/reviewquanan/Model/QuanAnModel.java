@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.ochutgio.reviewquanan.Controller.Interface.OdauInterface;
+import com.example.ochutgio.reviewquanan.Controller.ThucDonController;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,7 @@ public class QuanAnModel implements Parcelable {
     List<ChiNhanhQuanAnModel> chinhanhquanan;
     List<ThucDonModel> thucdonquanan;
     Bitmap bitmaphinhanhquanan;
+    Bitmap bitmaphinhmonan;
 
     private DatabaseReference noteRoot;
 
@@ -63,7 +65,6 @@ public class QuanAnModel implements Parcelable {
         in.readTypedList(chinhanhquanan, ChiNhanhQuanAnModel.CREATOR);
         binhluanquanan = new ArrayList<BinhLuanModel>();
         in.readTypedList(binhluanquanan, BinhLuanModel.CREATOR);
-//        bitmaphinhanhquanan = in.createTypedArrayList(Bitmap.CREATOR);
     }
 
     public static final Creator<QuanAnModel> CREATOR = new Creator<QuanAnModel>() {
@@ -84,6 +85,14 @@ public class QuanAnModel implements Parcelable {
 
     public void setBitmaphinhanhquanan(Bitmap bitmaphinhanhquanan) {
         this.bitmaphinhanhquanan = bitmaphinhanhquanan;
+    }
+
+    public Bitmap getBitmaphinhmonan() {
+        return bitmaphinhmonan;
+    }
+
+    public void setBitmaphinhmonan(Bitmap bitmaphinhmonan) {
+        this.bitmaphinhmonan = bitmaphinhmonan;
     }
 
     public long getGiatoida() {
@@ -239,9 +248,9 @@ public class QuanAnModel implements Parcelable {
             }
             i++;
 
-
             QuanAnModel quanAnModel = valueQuanAn.getValue(QuanAnModel.class);
             quanAnModel.setMaquanan(valueQuanAn.getKey());
+
             /// lay danh sach hinh anh quan an
             DataSnapshot dataHinhAnhQuanAnList = dataSnapshot.child("hinhanhquanans").child(valueQuanAn.getKey());
             List<String> hinhAnhQuanAnlist = new ArrayList<>();
@@ -255,7 +264,6 @@ public class QuanAnModel implements Parcelable {
             List<BinhLuanModel> binhLuanModelList = new ArrayList<>();
             for(DataSnapshot valueBinhLuan : dataBinhLuanQuanAnList.getChildren()){
                 BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
-//                binhLuanModel.setMabinhluan(valueBinhLuan.getKey());
                 ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
                 binhLuanModel.setThanhVienModel(thanhVienModel);
 
@@ -286,6 +294,24 @@ public class QuanAnModel implements Parcelable {
             }
             quanAnModel.setChinhanhquanan(chiNhanhQuanAnModelList);
 
+            /// lay thuc don quan an
+            DataSnapshot dataThucDonList = dataSnapshot.child("thucdonquanans").child(valueQuanAn.getKey());
+            List<ThucDonModel> thucDonModelList= new ArrayList<>();
+            for (DataSnapshot valueThucDon : dataThucDonList.getChildren()){
+                ThucDonModel thucDonModel = new ThucDonModel();
+                DataSnapshot noteThucDon = dataSnapshot.child("thucdons").child(valueThucDon.getKey());
+                thucDonModel.setMathucdon(noteThucDon.getKey());
+                thucDonModel.setTenthucdon(noteThucDon.getValue(String.class));
+                List<MonAnModel> monAnModelList = new ArrayList<>();
+                for(DataSnapshot valueMonAn : valueThucDon.getChildren()){
+                    MonAnModel monAnModel = valueMonAn.getValue(MonAnModel.class);
+                    monAnModelList.add(monAnModel);
+                }
+                thucDonModel.setMonAnModelList(monAnModelList);
+                thucDonModelList.add(thucDonModel);
+            }
+            quanAnModel.setThucdonquanan(thucDonModelList);
+
             ///
             odauInterface.getDanhSachQuanAnModel(quanAnModel);
         }
@@ -311,6 +337,5 @@ public class QuanAnModel implements Parcelable {
         parcel.writeStringList(hinhanhquanan);
         parcel.writeTypedList(chinhanhquanan);
         parcel.writeTypedList(binhluanquanan);
-//        parcel.writeTypedList(bitmaphinhanhquanan);
     }
 }

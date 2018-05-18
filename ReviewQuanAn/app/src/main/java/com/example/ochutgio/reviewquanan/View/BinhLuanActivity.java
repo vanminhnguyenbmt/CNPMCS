@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterHinhBinhLuanDuocChon;
@@ -33,15 +34,18 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
     TextView txtDangBinhLuan;
     TextView txtTenQuanAn;
     TextView txtDiaChi;
+    TextView txtDiem;
     EditText edTieuDeBinhLuan;
     EditText edNoiDungBinhLuan;
     RecyclerView recyclerHinhDuocChon;
     ImageView btnChonHinh;
     Toolbar toolbar;
+    SeekBar sbChamDiem;
 
     SharedPreferences sharedPreferences;
     BinhLuanController binhLuanController;
     String maquanan;
+    int chamdiem = 0;
 
     List<String> listHinhDaChon;
     AdapterHinhBinhLuanDuocChon adapterHinhBinhLuanDuocChon;
@@ -64,14 +68,16 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
         txtTenQuanAn = (TextView) findViewById(R.id.txtTenQuanAn);
         txtDiaChi = (TextView) findViewById(R.id.txtDiaChi);
         txtDangBinhLuan = (TextView) findViewById(R.id.txtDangBinhLuan);
+        txtDiem = (TextView) findViewById(R.id.txtDiem);
         edTieuDeBinhLuan = (EditText) findViewById(R.id.edTieuDeBinhLuan);
         edNoiDungBinhLuan = (EditText) findViewById(R.id.edNoiDungBinhLuan);
         btnChonHinh = (ImageView) findViewById(R.id.btnChonHinh);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        sbChamDiem = (SeekBar) findViewById(R.id.sbChamDiem);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerHinhDuocChon.setLayoutManager(layoutManager);
@@ -81,12 +87,23 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
 
         btnChonHinh.setOnClickListener(this);
         txtDangBinhLuan.setOnClickListener(this);
-    }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        sbChamDiem.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                chamdiem = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                txtDiem.setText(chamdiem + " đ");
+            }
+        });
     }
 
     @Override
