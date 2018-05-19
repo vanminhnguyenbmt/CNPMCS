@@ -3,6 +3,9 @@ package com.example.ochutgio.reviewquanan.View;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ochutgio.reviewquanan.Model.ThanhVienModel;
 import com.example.ochutgio.reviewquanan.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -22,13 +26,11 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +40,17 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -264,22 +276,100 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
         if( user != null){
             if(user.isEmailVerified() == true){
-                Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("mauser", user.getUid());
                 editor.commit();
-                Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
-                startActivity(iTrangChu);
-                finish();
+
+                final DatabaseReference dataUser = FirebaseDatabase.getInstance().getReference().child("thanhviens");
+                progressDialog.show();
+                dataUser.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.getValue() == null){
+                            ThanhVienModel thanhVienModel = new ThanhVienModel();
+                            if(user.getDisplayName() != null){
+
+                                thanhVienModel.setHoten(user.getDisplayName());
+                                thanhVienModel.setHinhanh(user.getUid() + ".jpg");
+                            }else {
+
+                                thanhVienModel.setHoten(user.getEmail());
+                                thanhVienModel.setHinhanh("avatar.png");
+                            }
+
+                            new DownLoadImageTask(user.getUid()+".jpg").execute(user.getPhotoUrl().toString());
+                            dataUser.child(user.getUid()).setValue(thanhVienModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        progressDialog.dismiss();
+                                        Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                        Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
+                                        startActivity(iTrangChu);
+                                        finish();
+                                    }
+                                }
+                            });
+
+                        }else {
+                            progressDialog.dismiss();
+                            Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                            Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
+                            startActivity(iTrangChu);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }else {
                 Toast.makeText(DangNhapActivity.this, "Vui lòng xác thực email để thực hiện đăng nhập", Toast.LENGTH_SHORT).show();
             }
 
         }else {
 
+        }
+    }
+
+    private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
+
+        String tenhinh;
+
+        public DownLoadImageTask(String tenhinh){
+            this.tenhinh = tenhinh;
+        }
+
+        /*
+            doInBackground(Params... params)
+            Override this method to perform a computation on a background thread.
+         */
+        protected Bitmap doInBackground(String...urls){
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try{
+                InputStream is = new URL(urlOfImage).openStream();
+                logo = BitmapFactory.decodeStream(is);
+            }catch(Exception e){ // Catch the download exception
+                e.printStackTrace();
+            }
+            return logo;
+        }
+
+        protected void onPostExecute(Bitmap result){
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            //Bitmap b = Bitmap.createScaledBitmap(result, 480, 640, false);
+            result.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] data = stream.toByteArray();
+            FirebaseStorage.getInstance().getReference().child("User/" + tenhinh).putBytes(data);
         }
     }
 }

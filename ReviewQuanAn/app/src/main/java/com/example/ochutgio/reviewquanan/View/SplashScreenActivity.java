@@ -39,8 +39,6 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splashscreen);
 
-        getHashkey();
-
         sharedPreferences = getSharedPreferences("toado", MODE_PRIVATE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -63,10 +61,10 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
                                 editor.putString("latitude", String.valueOf(location.getLatitude()));
                                 editor.putString("longitude",String.valueOf(location.getLongitude()));
                                 editor.commit();
-                                Toast.makeText(SplashScreenActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(SplashScreenActivity.this, "ok", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Toast.makeText(SplashScreenActivity.this, "null", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(SplashScreenActivity.this, "null", Toast.LENGTH_SHORT).show();
                             }
 
                             /// Chuyển sang activity đăng nhập
@@ -138,20 +136,4 @@ public class SplashScreenActivity extends AppCompatActivity implements OnSuccess
 
     }
 
-    public void getHashkey(){
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-
-                Log.i("Base64", Base64.encodeToString(md.digest(),Base64.NO_WRAP));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.d("Name not found", e.getMessage(), e);
-
-        } catch (NoSuchAlgorithmException e) {
-            Log.d("Error", e.getMessage(), e);
-        }
-    }
 }

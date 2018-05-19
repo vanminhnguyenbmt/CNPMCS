@@ -77,15 +77,6 @@ public class DangKyActivity extends AppCompatActivity {
                                 if(task.isSuccessful()){
                                     progressDialog.dismiss();
 
-                                    String uid = task.getResult().getUser().getUid();
-
-                                    ThanhVienModel thanhVienModel = new ThanhVienModel();
-                                    thanhVienModel.setHoten(email);
-                                    thanhVienModel.setHinhanh("boy_avatar.jpg");
-
-                                    DangKyController dangKyController = new DangKyController();
-                                    dangKyController.ThemThanhVienController(thanhVienModel, uid);
-
                                     firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

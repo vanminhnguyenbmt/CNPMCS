@@ -57,8 +57,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     TextView txtTenQuanAn;
     TextView txtTongSoHinhAnhQuanAn;
     TextView txtTongSoBinhLuanQuanAn;
-    TextView txtTongSoCheckInQuanAn;
-    TextView txtTongSoLuuLaiQuanAn;
+//    TextView txtTongSoCheckInQuanAn;
+//    TextView txtTongSoLuuLaiQuanAn;
     TextView txtThoiGianHoatDong;
     TextView txtTrangThaiHoatDong;
     TextView txtDiemQuanAnChiTiet;
@@ -69,6 +69,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
     LinearLayout KhungTienIch;
     LinearLayout btnBinhLuan;
+    LinearLayout containerHinhAnh;
+    LinearLayout containerBinhLuan;
     VideoView videoTrailer;
     ImageView imvHinhAnhQuanAn;
     ImageView imvPlayVideo;
@@ -101,8 +103,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         txtTenQuanAn = (TextView) findViewById(R.id.txtTenQuanAn);
         txtTongSoHinhAnhQuanAn = (TextView) findViewById(R.id.txtTongSoHinhAnhQuanAn);
         txtTongSoBinhLuanQuanAn = (TextView) findViewById(R.id.txtTongSoBinhLuanQuanAn);
-        txtTongSoCheckInQuanAn = (TextView) findViewById(R.id.txtTongSoCheckInQuanAn);
-        txtTongSoLuuLaiQuanAn = (TextView) findViewById(R.id.txtTongSoLuuLaiQuanAn);
+//        txtTongSoCheckInQuanAn = (TextView) findViewById(R.id.txtTongSoCheckInQuanAn);
+//        txtTongSoLuuLaiQuanAn = (TextView) findViewById(R.id.txtTongSoLuuLaiQuanAn);
         txtThoiGianHoatDong = (TextView) findViewById(R.id.txtThoiGianHoatDong);
         txtTrangThaiHoatDong = (TextView) findViewById(R.id.txtTrangThaiHoatDong);
         txtDiemQuanAnChiTiet = (TextView) findViewById(R.id.txtDiemQuanAnChiTiet);
@@ -119,6 +121,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnBinhLuan = (LinearLayout) findViewById(R.id.btnBinhLuan);
         KhungTienIch = (LinearLayout) findViewById(R.id.KhungTienIch);
+        containerBinhLuan = (LinearLayout) findViewById(R.id.containerBinhLuan);
+        containerHinhAnh = (LinearLayout) findViewById(R.id.containerHinhAnh);
         videoTrailer = (VideoView) findViewById(R.id.videoTrailer);
 
         mapQuanAn = (MapFragment) getFragmentManager().findFragmentById(R.id.mapQuanAn);
@@ -151,6 +155,29 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                 iBinhLuan.putExtra("tenquan", quanAnModel.getTenquanan());
                 iBinhLuan.putExtra("diachi", chiNhanhQuanAnModelMin.getDiachi());
                 startActivity(iBinhLuan);
+            }
+        });
+
+        containerBinhLuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(quanAnModel.getBinhluanquanan().size() > 0){
+                    Intent iTatCaBinhLuan = new Intent(ChiTietQuanAnActivity.this, TatCaBinhLuanActivity.class);
+                    iTatCaBinhLuan.putExtra("binhluanquanan", quanAnModel);
+                    startActivity(iTatCaBinhLuan);
+                }
+
+            }
+        });
+
+        containerHinhAnh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Integer.parseInt(txtTongSoHinhAnhQuanAn.getText().toString()) > 0){
+                    Intent iTatCaHinhAnh = new Intent(ChiTietQuanAnActivity.this, TatCaHinhAnhActivity.class);
+                    iTatCaHinhAnh.putExtra("hinhanhquanan", quanAnModel);
+                    startActivity(iTatCaHinhAnh);
+                }
             }
         });
     }

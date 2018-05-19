@@ -41,7 +41,7 @@
                 android:background="@drawable/custom_radiobutton_angi"
                 android:button="@android:color/transparent"
                 android:padding="10dp"
-                android:text="@string/angi"
+                android:text="@string/odau"
                 android:textAllCaps="true"
                 android:textColor="@drawable/changetextcolor_radiobutton_toolbar" />
 
@@ -52,7 +52,7 @@
                 android:background="@drawable/custom_radiobutton_odau"
                 android:button="@android:color/transparent"
                 android:padding="10dp"
-                android:text="@string/odau"
+                android:text="@string/angi"
                 android:textAllCaps="true"
                 android:textColor="@drawable/changetextcolor_radiobutton_toolbar" />
 

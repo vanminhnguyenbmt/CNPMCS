@@ -1,13 +1,16 @@
 package com.example.ochutgio.reviewquanan.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -17,24 +20,30 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+
+import com.example.ochutgio.reviewquanan.Model.ThanhVienModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
+
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterViewPagerTrangchu;
 import com.example.ochutgio.reviewquanan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.io.InputStream;
-import java.net.URL;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by ochutgio on 4/3/2018.
@@ -51,6 +60,8 @@ public class TrangChuActivity extends AppCompatActivity {
     RadioButton rb_odau;
     RadioButton rb_angi;
 
+    SharedPreferences sharedPreferences;
+
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
@@ -64,6 +75,8 @@ public class TrangChuActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_trangchu);
+
+        sharedPreferences = getSharedPreferences("LuuDangNhap", MODE_PRIVATE);
 
         mDrawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -103,16 +116,33 @@ public class TrangChuActivity extends AppCompatActivity {
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
             @Override
             public void onDrawerOpened(@NonNull View drawerView) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final TextView txtTenUser = (TextView) findViewById(R.id.txtTenUser);
+                final ImageView imvProfile = (ImageView) findViewById(R.id.profile_image);
+                String mauser = sharedPreferences.getString("mauser", "");
+                DatabaseReference dataUser = FirebaseDatabase.getInstance().getReference().child("thanhviens");
+                dataUser.child(mauser).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ThanhVienModel thanhVienModel = dataSnapshot.getValue(ThanhVienModel.class);
+                        txtTenUser.setText(thanhVienModel.getHoten());
 
-                TextView txtTenUser = (TextView) findViewById(R.id.txtTenUser);
-                ImageView imvProfile = (ImageView) findViewById(R.id.profile_image);
-                if(user.getDisplayName() != null){
-                    txtTenUser.setText(user.getDisplayName());
-                }
-                if(user.getPhotoUrl() != null){
-                    new DownLoadImageTask(imvProfile).execute(user.getPhotoUrl().toString());
-                }
+                        StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child("User").child(thanhVienModel.getHinhanh());
+                        long ONE_MEGABYTE = 1024 * 1024;
+                        storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                imvProfile.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
 
             }
             @Override
@@ -199,33 +229,29 @@ public class TrangChuActivity extends AppCompatActivity {
 
     }
 
+    /// sự kiện nhấn nút Back
+    @Override
+    public void onBackPressed() {
+        AlertDialog myAlertDialog = thoatAlertDialog();
+        myAlertDialog.show();
+    }
 
-    /// hàm load imageview with url
-    private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
-        ImageView imageView;
+    /// tạo hộp thoại xác nhận thoát ứng dụng
+    private AlertDialog thoatAlertDialog() {
 
-        public DownLoadImageTask(ImageView imageView){
-            this.imageView = imageView;
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác Nhận!");
+        builder.setMessage("Bạn có muốn thoát ứng dụng ?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Thoát",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        builder.setNeutralButton("Hủy", null);
 
-        /*
-            doInBackground(Params... params)
-            Override this method to perform a computation on a background thread.
-         */
-        protected Bitmap doInBackground(String...urls){
-            String urlOfImage = urls[0];
-            Bitmap logo = null;
-            try{
-                InputStream is = new URL(urlOfImage).openStream();
-                logo = BitmapFactory.decodeStream(is);
-            }catch(Exception e){ // Catch the download exception
-                e.printStackTrace();
-            }
-            return logo;
-        }
-
-        protected void onPostExecute(Bitmap result){
-            imageView.setImageBitmap(result);
-        }
+        AlertDialog dialog = builder.create();
+        return dialog;
     }
 }

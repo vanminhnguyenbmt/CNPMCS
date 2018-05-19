@@ -1,5 +1,8 @@
 package com.example.ochutgio.reviewquanan.Controller;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import com.example.ochutgio.reviewquanan.Model.BinhLuanModel;
 
 import java.util.List;
@@ -16,7 +19,7 @@ public class BinhLuanController {
         binhLuanModel = new BinhLuanModel();
     }
 
-    public  void ThemBinhLuan(BinhLuanModel binhLuanModel, List<String> listHinh, String maquanan){
-        binhLuanModel.ThemBinhLuan(binhLuanModel, listHinh, maquanan);
+    public  void ThemBinhLuan(BinhLuanModel binhLuanModel, List<String> listHinh, String maquanan, Context context){
+        binhLuanModel.ThemBinhLuan(binhLuanModel, listHinh, maquanan, context);
     }
 }

@@ -1,5 +1,8 @@
 package com.example.ochutgio.reviewquanan.View;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +50,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
     SharedPreferences sharedPreferences;
     BinhLuanController binhLuanController;
     String maquanan;
-    int chamdiem = 0;
+    int chamdiem = 5;
 
     List<String> listHinhDaChon;
     AdapterHinhBinhLuanDuocChon adapterHinhBinhLuanDuocChon;
@@ -129,8 +133,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
                     binhLuanModel.setChamdiem(chamdiem);
                     binhLuanModel.setLuotthich(0);
                     binhLuanModel.setMauser(mauser);
-
-                    binhLuanController.ThemBinhLuan(binhLuanModel, listHinhDaChon, maquanan);
+                    binhLuanController.ThemBinhLuan(binhLuanModel, listHinhDaChon, maquanan, this);
                 }
 
                 break;
@@ -152,5 +155,32 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
                 adapterHinhBinhLuanDuocChon.notifyDataSetChanged();
             }
         }
+    }
+
+    /// sự kiện nhấn nút Back
+    @Override
+    public void onBackPressed() {
+        AlertDialog myAlertDialog = thoatAlertDialog();
+        myAlertDialog.show();
+    }
+
+    /// tạo hộp thoại xác nhận thoát ứng dụng
+    private AlertDialog thoatAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //builder.setTitle("Xác Nhận!");
+        builder.setMessage("Bạn có muốn hủy bình luận ?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Có",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        builder.setNeutralButton("Không", null);
+
+
+        AlertDialog dialog = builder.create();
+        return dialog;
     }
 }

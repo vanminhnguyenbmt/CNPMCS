@@ -1,5 +1,8 @@
 package com.example.ochutgio.reviewquanan.Model;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -7,7 +10,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.example.ochutgio.reviewquanan.View.BinhLuanActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -135,46 +141,53 @@ public class BinhLuanModel implements Parcelable {
         parcel.writeParcelable(thanhVienModel, i);
     }
 
-    public void ThemBinhLuan(BinhLuanModel binhLuanModel, final List<String> listHinh, String maquanan){
+    public void ThemBinhLuan(BinhLuanModel binhLuanModel, final List<String> listHinh, String maquanan, final Context context){
 
         DatabaseReference noteBinhLuan = FirebaseDatabase.getInstance().getReference().child("binhluans");
-        String mabinhluan = noteBinhLuan.child(maquanan).push().getKey();
+        final String mabinhluan = noteBinhLuan.child(maquanan).push().getKey();
         noteBinhLuan.child(maquanan).child(mabinhluan).setValue(binhLuanModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isComplete()){
-
                     if(listHinh.size() > 0){
-                        for(String valueHinh : listHinh){
+                        for(final String valueHinh : listHinh){
                             Bitmap bitmap = decodeFile(valueHinh);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                             byte[] data = stream.toByteArray();
 
-                            Uri uri = Uri.fromFile(new File(valueHinh));
+                            final Uri uri = Uri.fromFile(new File(valueHinh));
                             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Photo/" + uri.getLastPathSegment());
                             storageReference.putBytes(data).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
+                                    if(!task.isSuccessful()){
+                                        Toast.makeText(context, uri.getLastPathSegment() + " upload thất bại", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(uri.getLastPathSegment());
+                                    }
                                 }
                             });
                             ///
                         }
                     }
                     ///
+                    Toast.makeText(context, "Thêm bình luận thành công", Toast.LENGTH_SHORT).show();
+                    ((Activity)context).finish();
+                }else {
+                    Toast.makeText(context, "Thêm bình luận thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        ///
-        if(listHinh.size() > 0){
-            for(String valueHinh : listHinh){
-                Uri uri = Uri.fromFile(new File(valueHinh));
-                FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(uri.getLastPathSegment());
-            }
-
-        }
+//        ///
+//        if(listHinh.size() > 0){
+//            for(String valueHinh : listHinh){
+//                Uri uri = Uri.fromFile(new File(valueHinh));
+//                FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(uri.getLastPathSegment());
+//            }
+//
+//        }
     }
 
     /// hàm resize kích thước ảnh

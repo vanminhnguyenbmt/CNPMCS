@@ -1,6 +1,9 @@
 package com.example.ochutgio.reviewquanan.View;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -117,12 +121,15 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
     String khuvuc;
     String maquanan;
 
+    ProgressDialog progress;
     ArrayAdapter<String> adapterKhuVuc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_themquanan);
+        progress = new ProgressDialog(this);
+        progress.setMessage("Đang xử lý...");
 
         btnThemQuanAn = (Button) findViewById(R.id.btnThemQuanAn);
         btnGioDongCua = (Button) findViewById(R.id.btnGioDongCua);
@@ -182,7 +189,7 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
         String giatoidainput = edGiaToiDa.getText().toString();
 
         if(tenquanan.trim().length() == 0 | chinhanh.trim().length() == 0 | giatoithieuinput.trim().length() == 0 | giatoidainput.trim().length() == 0){
-            Toast.makeText(ThemQuanAnActivity.this, "vui lòng nhập đúng thông tin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ThemQuanAnActivity.this, "vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
         }else {
             long giatoithieu = Long.parseLong(giatoithieuinput);
             long giatoida = Long.parseLong(giatoidainput);
@@ -212,11 +219,11 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
 
             if(maquanan != null){
                 /// thêm quán ăn
+                progress.show();
                 noteQuanAn.child(maquanan).setValue(quanAnModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         noteKhuVuc.child(khuvuc).push().setValue(maquanan);
-                        Toast.makeText(ThemQuanAnActivity.this, "thêm quán ăn thành công", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -241,6 +248,8 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
                         byte[] data = stream.toByteArray();
                         FirebaseStorage.getInstance().getReference().child("Photo/" + themThucDonModelList.get(i).getMonAnModel().getHinhanh()).putBytes(data);
                     }
+                    progress.dismiss();
+                    Toast.makeText(ThemQuanAnActivity.this, "thêm quán ăn thành công", Toast.LENGTH_SHORT).show();
                 }
             }else {
                 Toast.makeText(ThemQuanAnActivity.this, "thêm quán ăn thất bại,\nvui lòng kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
@@ -369,9 +378,11 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
 
         switch (requestCode){
             case REQUEST_IMVTHUCDON:
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                imvTam.setImageBitmap(bitmap);
-                hinhmonanList.add(bitmap);
+                if(data != null){
+                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    imvTam.setImageBitmap(bitmap);
+                    hinhmonanList.add(bitmap);
+                }
                 break;
             case REQUEST_IMV1:
                 if( resultCode == RESULT_OK){
@@ -413,7 +424,6 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
         btnThemThucDon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.setVisibility(View.GONE);
 
                 String tenhinh = String.valueOf(Calendar.getInstance().getTimeInMillis()) + ".jpg" ;
                 String tenmonan = edTenMonAn.getText().toString();
@@ -431,9 +441,10 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
                     themThucDonModel.setMathucdon(mathucdon);
                     themThucDonModel.setMonAnModel(monAnModel);
                     themThucDonModelList.add(themThucDonModel);
+                    view.setVisibility(View.GONE);
                     CloneThucDon();
                 }else {
-                    Toast.makeText(ThemQuanAnActivity.this, "vui lòng nhập đủ thông tin món ăn", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ThemQuanAnActivity.this, "vui lòng nhập thông tin món ăn", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -530,5 +541,32 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    /// sự kiện nhấn nút Back
+    @Override
+    public void onBackPressed() {
+        AlertDialog myAlertDialog = thoatAlertDialog();
+        myAlertDialog.show();
+    }
+
+    /// tạo hộp thoại xác nhận thoát ứng dụng
+    private AlertDialog thoatAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //builder.setTitle("Xác Nhận!");
+        builder.setMessage("Bạn có muốn thoát màn hình thêm quán ăn ?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Có",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        builder.setNeutralButton("Không", null);
+
+
+        AlertDialog dialog = builder.create();
+        return dialog;
     }
 }
