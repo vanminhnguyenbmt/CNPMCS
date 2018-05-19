@@ -7,6 +7,8 @@ import android.location.Location;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterRecyclerOdau;
 import com.example.ochutgio.reviewquanan.Controller.Interface.OdauInterface;
@@ -39,13 +41,14 @@ public class OdauController {
         quanAnModel = new QuanAnModel();
     }
 
-    public void getDanhSachQuanAnController(Context context, RecyclerView recyclerOdau, final Location vitrihientai){
+    public void getDanhSachQuanAnController(Context context, RecyclerView recyclerOdau, final Location vitrihientai, final ProgressBar progressBar){
         quanAnModelList  = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerOdau.setLayoutManager(layoutManager);
         adapterRecyclerOdau = new AdapterRecyclerOdau(context, quanAnModelList, R.layout.custom_layout_recycleview_odau);
         recyclerOdau.setAdapter(adapterRecyclerOdau);
 
+        progressBar.setVisibility(View.VISIBLE);
         final OdauInterface odauInterface = new OdauInterface() {
             @Override
             public void getDanhSachQuanAnModel(final QuanAnModel quanAnModel) {
@@ -60,6 +63,7 @@ public class OdauController {
                         quanAnModel.setBitmaphinhanhquanan(bitmapHinhQuanAn);
                         quanAnModelList.add(quanAnModel);
                         adapterRecyclerOdau.notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
 
                         }
                     });

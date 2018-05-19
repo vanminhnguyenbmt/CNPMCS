@@ -11,20 +11,13 @@
         android:background="@color/colorPrimaryDark">
 
         <EditText
+            android:id="@+id/edTimKiem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
             android:hint="Tìm kiếm"/>
-
-        <ImageView
-            android:id="@+id/imvTimKiem"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="right"
-            android:background="@drawable/search_50" />
 
     </android.support.v7.widget.Toolbar>
 

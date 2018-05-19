@@ -142,8 +142,11 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
                 tongdiem = tongdiem + binhLuanModeln.getChamdiem();
             }
 
-            double diemtb = tongdiem / quanAnModel.getBinhluanquanan().size();
-            holder.txtDiemQuanAn.setText(String.format("%.1f", diemtb));
+            if(tongdiem > 0){
+                double diemtb = tongdiem / quanAnModel.getBinhluanquanan().size();
+                holder.txtDiemQuanAn.setText(String.format("%.1f", diemtb));
+            }
+
             holder.txtTongHinhAnh.setText(tonghinhanh + "");
 
         }else {
@@ -151,6 +154,7 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             holder.containerBinhLuan1.setVisibility(View.GONE);
             holder.txtTongBinhLuan.setText("0");
             holder.txtTongHinhAnh.setText("0");
+            holder.txtDiemQuanAn.setText("_._");
         }
 
         /// lay chi nhanh quan an gan nhat va hien thi

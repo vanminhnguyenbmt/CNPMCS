@@ -229,9 +229,12 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                 tonghinhanh = tonghinhanh + binhLuanModel.getHinhanhBinhLuan().size();
                 tongdiem = tongdiem + binhLuanModel.getChamdiem();
             }
-            double diemtb = tongdiem/quanAnModel.getBinhluanquanan().size();
+            if(tongdiem > 0){
+                double diemtb = tongdiem / quanAnModel.getBinhluanquanan().size();
+                txtDiemQuanAnChiTiet.setText(String.format("%.1f", diemtb));
+            }
             txtTongSoHinhAnhQuanAn.setText(tonghinhanh + "");
-            txtDiemQuanAnChiTiet.setText(String.format("%.1f", diemtb));
+
 
             /// lấy bình luận quán ăn
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

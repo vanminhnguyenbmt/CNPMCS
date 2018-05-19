@@ -66,6 +66,7 @@ public class TatCaHinhAnhActivity extends AppCompatActivity {
         final List<Bitmap>  bitmapList = new ArrayList<>();
         progressDialog.setMessage("Đang tải hình");
         progressDialog.setIndeterminate(true);
+        //progressDialog.setCancelable(false);
         progressDialog.show();
         for(final BinhLuanModel binhLuanModel : quanAnModel.getBinhluanquanan()){
             for(String linkhinh : binhLuanModel.getHinhanhBinhLuan()){

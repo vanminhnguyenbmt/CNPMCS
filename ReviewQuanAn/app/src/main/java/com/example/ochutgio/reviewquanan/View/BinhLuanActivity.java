@@ -97,6 +97,10 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 chamdiem = i;
+                if(chamdiem > 0){
+                    txtDiem.setText(chamdiem + " đ");
+                }
+
             }
 
             @Override
@@ -106,7 +110,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                txtDiem.setText(chamdiem + " đ");
+
             }
         });
     }

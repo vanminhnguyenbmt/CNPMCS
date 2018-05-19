@@ -97,6 +97,7 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Đang đăng nhập");
         progressDialog.setIndeterminate(true);
+        //progressDialog.setCancelable(false);
 
         btnDangNhapGoogle = (Button) findViewById(R.id.btnDangNhapGoogle);
         btnDangNhapFacebook = (Button) findViewById(R.id.btnDangNhapFacebook);
@@ -307,8 +308,8 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        progressDialog.dismiss();
                                         Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
                                         Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
                                         startActivity(iTrangChu);
                                         finish();
@@ -316,12 +317,6 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
                                 }
                             });
 
-                        }else {
-                            progressDialog.dismiss();
-                            Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                            Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
-                            startActivity(iTrangChu);
-                            finish();
                         }
                     }
 
@@ -330,7 +325,12 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
 
                     }
                 });
-
+                ///
+                Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                Intent iTrangChu = new Intent(DangNhapActivity.this, TrangChuActivity.class);
+                startActivity(iTrangChu);
+                finish();
             }else {
                 Toast.makeText(DangNhapActivity.this, "Vui lòng xác thực email để thực hiện đăng nhập", Toast.LENGTH_SHORT).show();
             }

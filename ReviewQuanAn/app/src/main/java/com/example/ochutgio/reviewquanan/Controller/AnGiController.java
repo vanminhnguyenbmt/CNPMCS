@@ -7,7 +7,9 @@ import android.location.Location;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterRecyclerAnGi;
 import com.example.ochutgio.reviewquanan.Controller.Interface.OdauInterface;
@@ -39,7 +41,7 @@ public class AnGiController {
         quanAnModel = new QuanAnModel();
     }
 
-    public void getDanhSachQuanAnController(RecyclerView recyclerAnGi, final Location vitrihientai){
+    public void getDanhSachQuanAnController(RecyclerView recyclerAnGi, final Location vitrihientai, final ProgressBar progressBar){
 
         quanAnModelList  = new ArrayList<>();
 
@@ -50,7 +52,7 @@ public class AnGiController {
         // tạo adapterRecycleView và set adapter cho recyclerView
         adapterRecyclerAnGi = new AdapterRecyclerAnGi(quanAnModelList, R.layout.custom_layout_recycleview_angi, context);
         recyclerAnGi.setAdapter(adapterRecyclerAnGi);
-
+        progressBar.setVisibility(View.VISIBLE);
         final OdauInterface odauInterface = new OdauInterface() {
             @Override
             public void getDanhSachQuanAnModel(final QuanAnModel quanAnModel) {
@@ -65,6 +67,7 @@ public class AnGiController {
                             quanAnModel.setBitmaphinhmonan(bitmapHinhMonAn);
                             quanAnModelList.add(quanAnModel);
                             adapterRecyclerAnGi.notifyDataSetChanged();
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
 
