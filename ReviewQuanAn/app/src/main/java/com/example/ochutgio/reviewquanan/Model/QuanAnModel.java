@@ -317,6 +317,91 @@ public class QuanAnModel implements Parcelable {
         }
     }
 
+    public void timQuanAn(final OdauInterface odauInterface,final DataSnapshot dataQuanAn, final Location vitrihientai){
+
+        final DatabaseReference dataNodeRoot = FirebaseDatabase.getInstance().getReference();
+        dataNodeRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataRoot) {
+                for(DataSnapshot valueQuanAn : dataQuanAn.getChildren()){
+
+                    QuanAnModel quanAnModel = valueQuanAn.getValue(QuanAnModel.class);
+                    quanAnModel.setMaquanan(valueQuanAn.getKey());
+                    Log.d("kiemtra", valueQuanAn.getKey());
+                    /// lay danh sach hinh anh quan an
+                    DataSnapshot dataHinhAnhQuanAnList = dataRoot.child("hinhanhquanans").child(valueQuanAn.getKey());
+                    List<String> hinhAnhQuanAnlist = new ArrayList<>();
+                    for(DataSnapshot valueHinhAnh : dataHinhAnhQuanAnList.getChildren()){
+                        hinhAnhQuanAnlist.add(valueHinhAnh.getValue(String.class));
+                    }
+                    quanAnModel.setHinhanhquanan(hinhAnhQuanAnlist);
+
+                    /// lay danh sach binh luan quan an
+                    DataSnapshot dataBinhLuanQuanAnList = dataRoot.child("binhluans").child(valueQuanAn.getKey());
+                    List<BinhLuanModel> binhLuanModelList = new ArrayList<>();
+                    for(DataSnapshot valueBinhLuan : dataBinhLuanQuanAnList.getChildren()){
+                        BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
+                        ThanhVienModel thanhVienModel = dataRoot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
+                        binhLuanModel.setThanhVienModel(thanhVienModel);
+
+                        List<String> hinhanhBinhLuan = new ArrayList<>();
+                        DataSnapshot dataHinhAnhBinhLuan = dataRoot.child("hinhanhbinhluans").child(valueBinhLuan.getKey());
+                        for(DataSnapshot valueHinhAnhBinhLuan : dataHinhAnhBinhLuan.getChildren()){
+                            hinhanhBinhLuan.add(valueHinhAnhBinhLuan.getValue(String.class));
+                        }
+                        binhLuanModel.setHinhanhBinhLuan(hinhanhBinhLuan);
+                        binhLuanModelList.add(binhLuanModel);
+                    }
+                    quanAnModel.setBinhluanquanan(binhLuanModelList);
+
+                    /// lay chi nhanh quan an
+                    DataSnapshot dataChiNhanhQuanList = dataRoot.child("chinhanhquanans").child(valueQuanAn.getKey());
+                    List<ChiNhanhQuanAnModel> chiNhanhQuanAnModelList = new ArrayList<>();
+                    for(DataSnapshot valueChiNhanhQuanAn : dataChiNhanhQuanList.getChildren()){
+
+                        ChiNhanhQuanAnModel chiNhanhQuanAnModel = valueChiNhanhQuanAn.getValue(ChiNhanhQuanAnModel.class);
+
+                        Location vitriquanan = new Location("");
+                        vitriquanan.setLatitude(chiNhanhQuanAnModel.getLatitude());
+                        vitriquanan.setLongitude(chiNhanhQuanAnModel.getLongitude());
+                        double khoangcach = vitrihientai.distanceTo(vitriquanan) / 1000;
+                        chiNhanhQuanAnModel.setKhoangcach(khoangcach);
+
+                        chiNhanhQuanAnModelList.add(chiNhanhQuanAnModel);
+                    }
+                    quanAnModel.setChinhanhquanan(chiNhanhQuanAnModelList);
+
+                    /// lay thuc don quan an
+                    DataSnapshot dataThucDonList = dataRoot.child("thucdonquanans").child(valueQuanAn.getKey());
+                    List<ThucDonModel> thucDonModelList= new ArrayList<>();
+                    for (DataSnapshot valueThucDon : dataThucDonList.getChildren()){
+                        ThucDonModel thucDonModel = new ThucDonModel();
+                        DataSnapshot noteThucDon = dataRoot.child("thucdons").child(valueThucDon.getKey());
+                        thucDonModel.setMathucdon(noteThucDon.getKey());
+                        thucDonModel.setTenthucdon(noteThucDon.getValue(String.class));
+                        List<MonAnModel> monAnModelList = new ArrayList<>();
+                        for(DataSnapshot valueMonAn : valueThucDon.getChildren()){
+                            MonAnModel monAnModel = valueMonAn.getValue(MonAnModel.class);
+                            monAnModelList.add(monAnModel);
+                        }
+                        thucDonModel.setMonAnModelList(monAnModelList);
+                        thucDonModelList.add(thucDonModel);
+                    }
+                    quanAnModel.setThucdonquanan(thucDonModelList);
+                    ///
+                    odauInterface.timQuanAn(quanAnModel);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
     @Override
     public int describeContents() {
         return 0;

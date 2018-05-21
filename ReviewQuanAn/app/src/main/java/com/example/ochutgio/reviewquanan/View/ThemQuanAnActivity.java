@@ -3,9 +3,12 @@ package com.example.ochutgio.reviewquanan.View;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -43,6 +48,12 @@ import com.example.ochutgio.reviewquanan.Model.ThemThucDonModel;
 import com.example.ochutgio.reviewquanan.Model.ThucDonModel;
 import com.example.ochutgio.reviewquanan.Model.TienIchModel;
 import com.example.ochutgio.reviewquanan.R;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -60,6 +71,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -79,6 +93,7 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
     final int REQUEST_IMVVIDDEO = 222;
     final int REQUEST_IMVTHUCDON = 333;
     final int REQUEST_IMV1 = 111;
+    final int PLACE_PICKER_REQUEST = 1;
 
     Button btnThemQuanAn;
     Button btnGioMoCua;
@@ -87,14 +102,17 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
     ImageView imvTam;
 
     LinearLayout khungTienIch;
-    LinearLayout khungChiNhanh;
-    LinearLayout containerChiNhanh;
     LinearLayout containerThucDon;
+    LinearLayout contaninerToaDo;
+
 
     EditText edTenQuanAn;
     EditText edGiaToiThieu;
     EditText edGiaToiDa;
     EditText edTenChiNhanh;
+
+    TextView txtLat;
+    TextView txtLong;
 
     ImageView imvHinhQuanAn1;
     ImageView imvHinhQuanAn2;
@@ -103,17 +121,18 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
     ImageView imvHinhQuanAn5;
     ImageView imvHinhQuanAn6;
 
-
     Toolbar toolbar;
 
     String giomocua = "09:00";
     String giodongcua = "21:00";
 
-    List<Bitmap> hinhmonanList;
+    double latitude = 0.0;
+    double longitude = 0.0;
+
+    List<Uri> hinhmonanList;
     List<String> tienichList;
     List<String> khuvucList;
     List<String> thucdonList;
-
     List<ThucDonModel> thucDonModelList;
     List<ThemThucDonModel> themThucDonModelList;
 
@@ -135,15 +154,20 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
         btnGioDongCua = (Button) findViewById(R.id.btnGioDongCua);
         btnGioMoCua = (Button) findViewById(R.id.btnGioMoCua);
         spinerKhuVuc = (Spinner) findViewById(R.id.spinerKhuVuc);
-        khungTienIch = (LinearLayout) findViewById(R.id.khungTienIch);
 
+        khungTienIch = (LinearLayout) findViewById(R.id.khungTienIch);
         containerThucDon = (LinearLayout) findViewById(R.id.containerThucDon);
+        contaninerToaDo = (LinearLayout) findViewById(R.id.containerToaDo);
 
         imvHinhQuanAn1 = (ImageView) findViewById(R.id.imvHinhQuanAn1);
+        txtLat = (TextView) findViewById(R.id.txtLat);
+        txtLong = (TextView) findViewById(R.id.txtLong);
 
         edTenQuanAn = (EditText) findViewById(R.id.edTenQuanAn);
         edGiaToiThieu = (EditText) findViewById(R.id.edGiaToiThieu);
+        //edGiaToiThieu.setFilters(new InputFilter[]{ new InputFilterMinMax("1000", "1000000")});
         edGiaToiDa = (EditText) findViewById(R.id.edGiaToiDa);
+        //edGiaToiDa.setFilters(new InputFilter[]{new InputFilterMinMax("1000", "10000000")});
         edTenChiNhanh = (EditText) findViewById(R.id.edTenChiNhanh);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -164,27 +188,28 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
         spinerKhuVuc.setAdapter(adapterKhuVuc);
         adapterKhuVuc.notifyDataSetChanged();
 
+        //CloneThucDon();
 
-        CloneThucDon();
 
         btnThemQuanAn.setOnClickListener(this);
         btnGioMoCua.setOnClickListener(this);
         btnGioDongCua.setOnClickListener(this);
         spinerKhuVuc.setOnItemSelectedListener(this);
         imvHinhQuanAn1.setOnClickListener(this);
-        //imvVideo.setOnClickListener(this);
+        contaninerToaDo.setOnClickListener(this);
 
         ///
         LayDanhSachTienIch();
         LayDanhSachKhuVuc();
 
+
     }
 
 
-    private  void ThemQuanAn(){
+    private  void ThemQuanAn() throws IOException {
 
         String tenquanan = edTenQuanAn.getText().toString();
-        String chinhanh = edTenChiNhanh.getText().toString();
+        final String chinhanh = edTenChiNhanh.getText().toString();
         String giatoithieuinput = edGiaToiThieu.getText().toString();
         String giatoidainput = edGiaToiDa.getText().toString();
 
@@ -201,11 +226,6 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
 
             maquanan = noteQuanAn.push().getKey();
 
-            String urlGeocodingApi = "https://maps.googleapis.com/maps/api/geocode/json?address=" + chinhanh.replace(" ", "%20") + "&KEY=AIzaSyBkbgUbHNvH_6drCmpx6btkv7B8PoQjaIU";
-            DownloadToaDo downloadToaDo = new DownloadToaDo();
-            downloadToaDo.execute(urlGeocodingApi);
-
-
             QuanAnModel quanAnModel = new QuanAnModel();
             quanAnModel.setLuotthich(0);
             quanAnModel.setTenquanan(tenquanan);
@@ -218,40 +238,72 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
             quanAnModel.setVideogioithieu("");
 
             if(maquanan != null){
-                /// thêm quán ăn
-                progress.show();
-                noteQuanAn.child(maquanan).setValue(quanAnModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        noteKhuVuc.child(khuvuc).push().setValue(maquanan);
-                    }
-                });
 
-                /// upload hình ảnh quán ăn
                 if(hinhquanan != null){
-                    FirebaseStorage.getInstance().getReference().child("Photo/" + hinhquanan.getLastPathSegment()).putFile(hinhquanan).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    /// thêm quán ăn
+                    progress.show();
+                    noteQuanAn.child(maquanan).setValue(quanAnModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            noteRoot.child("hinhanhquanans").child(maquanan).push().setValue(hinhquanan.getLastPathSegment());
+                        public void onSuccess(Void aVoid) {
+                        noteKhuVuc.child(khuvuc).push().setValue(maquanan);
+
+                        ChiNhanhQuanAnModel chiNhanhQuanAnModel = new ChiNhanhQuanAnModel();
+                        chiNhanhQuanAnModel.setDiachi(chinhanh);
+                        chiNhanhQuanAnModel.setLatitude(latitude);
+                        chiNhanhQuanAnModel.setLongitude(longitude);
+                        FirebaseDatabase.getInstance().getReference().child("chinhanhquanans").child(maquanan).push().setValue(chiNhanhQuanAnModel);
+
+                        /// upload hình ảnh quán ăn
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = resizeFile(hinhquanan);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] data = stream.toByteArray();
+
+                        final Uri uri = Uri.fromFile(new File(String.valueOf(hinhquanan)));
+                        FirebaseStorage.getInstance().getReference().child("Photo/" + uri.getLastPathSegment()).putBytes(data).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    noteRoot.child("hinhanhquanans").child(maquanan).push().setValue(uri.getLastPathSegment());
+                                }else {
+                                    Toast.makeText(ThemQuanAnActivity.this, "Upload hình quán ăn thất bại", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+                        progress.dismiss();
+                        Toast.makeText(ThemQuanAnActivity.this, "thêm quán ăn thành công", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+
+                    /// thêm và upload thực đơn quán ăn
+                    if(themThucDonModelList.size() > 0){
+                        for(int i = 0; i < themThucDonModelList.size(); i++){
+                            ThemThucDonModel themThucDonModel = themThucDonModelList.get(i);
+                            noteRoot.child("thucdonquanans").child(maquanan).child(themThucDonModel.getMathucdon()).push().setValue(themThucDonModel.getMonAnModel());
+
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            Bitmap bitmap =  resizeFile(hinhmonanList.get(i));
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                            byte[] data = stream.toByteArray();
+                            FirebaseStorage.getInstance().getReference().child("Photo/" + themThucDonModel.getMonAnModel().getHinhanh()).putBytes(data);
+                        }
+                    }
+                   ///
+
+                }else {
+                    progress.dismiss();
+                    Toast.makeText(ThemQuanAnActivity.this, "Vui lòng chọn hình quán ăn", Toast.LENGTH_SHORT).show();
                 }
 
-                /// thêm và upload thực đơn quán ăn
-                if(themThucDonModelList.size() > 0){
-                    for(int i = 0; i < themThucDonModelList.size(); i++){
-                        noteRoot.child("thucdonquanans").child(maquanan).child(themThucDonModelList.get(i).getMathucdon()).push().setValue(themThucDonModelList.get(i).getMonAnModel());
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        Bitmap bitmap = hinhmonanList.get(i);
-                        Bitmap b = Bitmap.createScaledBitmap(bitmap, 480, 640, false);
-                        b.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] data = stream.toByteArray();
-                        FirebaseStorage.getInstance().getReference().child("Photo/" + themThucDonModelList.get(i).getMonAnModel().getHinhanh()).putBytes(data);
-                    }
-                    progress.dismiss();
-                    Toast.makeText(ThemQuanAnActivity.this, "thêm quán ăn thành công", Toast.LENGTH_SHORT).show();
-                }
             }else {
+                progress.dismiss();
                 Toast.makeText(ThemQuanAnActivity.this, "thêm quán ăn thất bại,\nvui lòng kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
             }
 
@@ -259,73 +311,43 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    class DownloadToaDo extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            try {
-                URL url = new URL(strings[0]);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-
-                while ((line = bufferedReader.readLine()) != null){
-                    stringBuilder.append(line + "\n");
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return stringBuilder.toString();
+    ///
+    private Bitmap resizeBitMap(Bitmap bitmap){
+        Bitmap b;
+        int max_size = 600;
+        int scale = 1;
+        if (bitmap.getWidth() > max_size || bitmap.getHeight() > max_size)
+        {
+            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(max_size / (double) Math.max(bitmap.getWidth(), bitmap.getHeight())) / Math.log(0.5)));
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.d("kiemtra", s);
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONArray jsonResult = jsonObject.getJSONArray("results");
+        b = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / scale, bitmap.getHeight() / scale, false);
+        return  b;
+    }
 
-                if(jsonResult != null){
-                    for(int i = 0; i < jsonResult.length(); i++){
-                        JSONObject object = jsonResult.getJSONObject(i);
+    /// hàm resize kích thước ảnh
+    private Bitmap resizeFile(Uri uri) throws IOException {
+        Bitmap b = null;
+        try {
+            InputStream is = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            is.close();
 
-                        if(object != null){
-                            String address = object.getString("formatted_address");
-                            JSONObject geometry = object.getJSONObject("geometry");
-                            if(geometry != null){
-                                JSONObject location = geometry.getJSONObject("location");
-                                double latitude = (double) location.get("lat");
-                                double longitude = (double) location.get("lng");
-                                Log.d("kiemtra", "" + latitude + " - " + longitude);
-
-                                ChiNhanhQuanAnModel chiNhanhQuanAnModel = new ChiNhanhQuanAnModel();
-                                chiNhanhQuanAnModel.setDiachi(address);
-                                chiNhanhQuanAnModel.setLatitude(latitude);
-                                chiNhanhQuanAnModel.setLongitude(longitude);
-                                FirebaseDatabase.getInstance().getReference().child("chinhanhquanans").child(maquanan).push().setValue(chiNhanhQuanAnModel);
-                            }
-                        }else {
-                            Toast.makeText(ThemQuanAnActivity.this, "địa chỉ quán ăn không tồn tại", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }else {
-                    Toast.makeText(ThemQuanAnActivity.this, "địa chỉ quán ăn không tồn tại", Toast.LENGTH_SHORT).show();
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-                Toast.makeText(ThemQuanAnActivity.this, "địa chỉ quán ăn không tồn tại", Toast.LENGTH_SHORT).show();
+            int max_size = 600;
+            int scale = 1;
+            if (bitmap.getWidth() > max_size || bitmap.getHeight() > max_size)
+            {
+                scale = (int) Math.pow(2, (int) Math.ceil(Math.log(max_size / (double) Math.max(bitmap.getWidth(), bitmap.getHeight())) / Math.log(0.5)));
             }
+
+            b = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / scale, bitmap.getHeight() / scale, false);
+
+
+
+        }catch (Exception e){
+
         }
+        return b;
     }
 
     @Override
@@ -337,7 +359,11 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
 
         switch (view.getId()){
             case R.id.btnThemQuanAn:
-                ThemQuanAn();
+                try {
+                    ThemQuanAn();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.btnGioMoCua:
                 TimePickerDialog timePickerDialogMoCua = new TimePickerDialog(ThemQuanAnActivity.this, new TimePickerDialog.OnTimeSetListener(){
@@ -368,6 +394,16 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
                 intent1.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent1, "Chọn hình"), REQUEST_IMV1);
                 break;
+            case R.id.containerToaDo:
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+                break;
 
         }
     }
@@ -379,16 +415,44 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
         switch (requestCode){
             case REQUEST_IMVTHUCDON:
                 if(data != null){
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    imvTam.setImageBitmap(bitmap);
-                    hinhmonanList.add(bitmap);
+                    Uri uri = data.getData();
+                    try {
+                        Bitmap b = resizeFile(uri);
+                        imvTam.setImageBitmap(b);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    hinhmonanList.add(uri);
+                    Log.d("kiemtra", uri + "");
                 }
                 break;
             case REQUEST_IMV1:
                 if( resultCode == RESULT_OK){
-                    Uri uri = data.getData();
-                    imvHinhQuanAn1.setImageURI(uri);
-                    hinhquanan = uri;
+                    if(data != null){
+                        Uri uri = data.getData();
+                        try {
+                            Bitmap b = resizeFile(uri);
+                            imvHinhQuanAn1.setImageBitmap(b);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        hinhquanan = uri;
+                        Log.d("kiemtra", uri + "");
+                    }
+
+                }
+                break;
+            case PLACE_PICKER_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if(data != null){
+                        Place place = PlacePicker.getPlace(this, data);
+                        LatLng location = place.getLatLng();
+                        latitude = location.latitude;
+                        longitude = location.longitude;
+                        txtLat.setText("lat " + latitude);
+                        txtLong.setText("Long " + longitude);
+                    }
                 }
                 break;
         }
@@ -416,8 +480,10 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
         imvChupHinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_IMVTHUCDON);
+                Intent intent1 = new Intent();
+                intent1.setType("image/*");
+                intent1.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent1, "Chọn hình"), REQUEST_IMVTHUCDON);
             }
         });
 
@@ -442,6 +508,10 @@ public class ThemQuanAnActivity extends AppCompatActivity implements View.OnClic
                     themThucDonModel.setMonAnModel(monAnModel);
                     themThucDonModelList.add(themThucDonModel);
                     view.setVisibility(View.GONE);
+                    for(int i = 0; i < themThucDonModelList.size(); i++)
+                    {
+                        Log.d("kiemtra", themThucDonModelList.get(i).getMathucdon() + themThucDonModelList.get(i).getMonAnModel().getTenmon() + themThucDonModelList.get(i).getMonAnModel().getGiatien() + themThucDonModelList.get(i).getMonAnModel().getHinhanh());
+                    }
                     CloneThucDon();
                 }else {
                     Toast.makeText(ThemQuanAnActivity.this, "vui lòng nhập thông tin món ăn", Toast.LENGTH_SHORT).show();

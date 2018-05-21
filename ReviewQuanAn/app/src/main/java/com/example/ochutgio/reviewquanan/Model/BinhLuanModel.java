@@ -151,7 +151,7 @@ public class BinhLuanModel implements Parcelable {
                 if(task.isComplete()){
                     if(listHinh.size() > 0){
                         for(final String valueHinh : listHinh){
-                            Bitmap bitmap = decodeFile(valueHinh);
+                            Bitmap bitmap = resizeFile(valueHinh);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                             byte[] data = stream.toByteArray();
@@ -180,18 +180,10 @@ public class BinhLuanModel implements Parcelable {
             }
         });
 
-//        ///
-//        if(listHinh.size() > 0){
-//            for(String valueHinh : listHinh){
-//                Uri uri = Uri.fromFile(new File(valueHinh));
-//                FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(uri.getLastPathSegment());
-//            }
-//
-//        }
     }
 
     /// hàm resize kích thước ảnh
-    private Bitmap decodeFile(String imgPath)
+    private Bitmap resizeFile(String imgPath)
     {
         Bitmap b = null;
         int max_size = 600;

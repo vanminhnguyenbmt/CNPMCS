@@ -18,6 +18,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -123,18 +124,21 @@ public class TrangChuActivity extends AppCompatActivity {
                 dataUser.child(mauser).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ThanhVienModel thanhVienModel = dataSnapshot.getValue(ThanhVienModel.class);
-                        txtTenUser.setText(thanhVienModel.getHoten());
+                        if(dataSnapshot.getValue() != null){
+                            ThanhVienModel thanhVienModel = dataSnapshot.getValue(ThanhVienModel.class);
+                            txtTenUser.setText(thanhVienModel.getHoten());
 
-                        StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child("User").child(thanhVienModel.getHinhanh());
-                        long ONE_MEGABYTE = 1024 * 1024;
-                        storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                            @Override
-                            public void onSuccess(byte[] bytes) {
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                imvProfile.setImageBitmap(bitmap);
-                            }
-                        });
+                            StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child("User").child(thanhVienModel.getHinhanh());
+                            long ONE_MEGABYTE = 1024 * 1024;
+                            storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    imvProfile.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+
                     }
 
                     @Override

@@ -11,7 +11,7 @@ import android.text.Spanned;
 //et.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "12")});
 
 public class InputFilterMinMax implements InputFilter {
-    private int min, max;
+    private long min, max;
 
     public InputFilterMinMax(int min, int max) {
         this.min = min;
@@ -19,21 +19,21 @@ public class InputFilterMinMax implements InputFilter {
     }
 
     public InputFilterMinMax(String min, String max) {
-        this.min = Integer.parseInt(min);
-        this.max = Integer.parseInt(max);
+        this.min = Long.parseLong(min);
+        this.max = Long.parseLong(max);
     }
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         try {
-            int input = Integer.parseInt(dest.toString() + source.toString());
+            long input = Long.parseLong(dest.toString() + source.toString());
             if (isInRange(min, max, input))
                 return null;
         } catch (NumberFormatException nfe) { }
         return "";
     }
 
-    private boolean isInRange(int a, int b, int c) {
+    private boolean isInRange(long a, long b, long c) {
         return b > a ? c >= a && c <= b : c >= b && c <= a;
     }
 }

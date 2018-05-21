@@ -6,7 +6,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimaryDark">
 
         <TextView
@@ -20,7 +20,7 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -58,10 +58,40 @@
                 android:background="@color/colorTrangChu"/> <!-- dấu gạch ngang -->
 
             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/location_50"/>
+
+            <EditText
+                android:id="@+id/edTenChiNhanh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:background="#FFF"
-                android:padding="5dp">
+                android:hint="Địa chỉ"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorTrangChu"/> <!-- dấu gạch ngang -->
+
+            <LinearLayout
+                android:id="@+id/containerToaDo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="#FFF">
 
                 <ImageView
                     android:layout_width="18dp"
@@ -69,14 +99,42 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/location_50"/>
 
-                <EditText
-                    android:id="@+id/edTenChiNhanh"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:background="#FFF"
-                    android:hint="12 Võ Văn Ngân, Linh Chiểu, Thủ Đức"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="Tọa độ bản đồ"/>
+
+                <TextView
+                    android:id="@+id/txtLat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:textColor="#333"
+                    android:text="lat 0.0"/>
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text=" - "/>
+
+                <TextView
+                    android:id="@+id/txtLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#333"
+                    android:text="long 0.0"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/right_arow"/>
 
             </LinearLayout>
 
@@ -271,7 +329,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:background="@color/colorTrangChu"/>
+                android:src="@drawable/img_themhinhanh"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -290,7 +348,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="Thực đơn"/>
+                    android:text="Thực đơn (không bắt buộc)"/>
 
             </LinearLayout>
 

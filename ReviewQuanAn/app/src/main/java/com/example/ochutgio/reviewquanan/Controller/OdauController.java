@@ -69,6 +69,11 @@ public class OdauController {
                     });
                 }
             }
+
+            @Override
+            public void timQuanAn(QuanAnModel quanAnModel) {
+
+            }
         };
 
         recyclerOdau.addOnScrollListener(new RecyclerView.OnScrollListener() {

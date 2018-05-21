@@ -61,8 +61,6 @@ public class AdapterChonHinhBinhLuan extends RecyclerView.Adapter<AdapterChonHin
     public void onBindViewHolder(AdapterChonHinhBinhLuan.ViewHolder holder, final int position) {
 
         final ChonHinhBinhLuanModel chonHinhBinhLuanModel = listDuongDan.get(position);
-//        Uri uri = Uri.parse(chonHinhBinhLuanModel.getDuongdan());
-//        Log.d("kiemtra", uri + "");
         File f = new File(chonHinhBinhLuanModel.getDuongdan());
         Picasso.get().load(f).resize(100, 100).into(holder.imvChonHinh);
         Picasso.get()

@@ -11,4 +11,6 @@ import com.example.ochutgio.reviewquanan.Model.QuanAnModel;
 public interface OdauInterface {
 
     void getDanhSachQuanAnModel(QuanAnModel quanAnModel);
+
+    void timQuanAn(QuanAnModel quanAnModel);
 }

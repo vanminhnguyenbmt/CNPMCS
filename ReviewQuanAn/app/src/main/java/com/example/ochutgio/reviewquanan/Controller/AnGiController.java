@@ -74,6 +74,11 @@ public class AnGiController {
                 }
 
             }
+
+            @Override
+            public void timQuanAn(QuanAnModel quanAnModel) {
+
+            }
         };
 
         ///

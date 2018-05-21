@@ -52,8 +52,6 @@ public class ChonHinhBinhLuanActivity extends AppCompatActivity {
 
         listDuongDan = new ArrayList<>();
         listDuocChon = new ArrayList<>();
-//        listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG_20171203_033400.jpg") ;
-//        listDuocChon.add("/storage/emulated/0/DCIM/Camera/IMG20171218164006.jpg") ;
 
         recyclerChonHinh = (RecyclerView) findViewById(R.id.recyclerChonHinh);
 //        imvGoiCamera = (ImageView) findViewById(R.id.imvGoiCamera);

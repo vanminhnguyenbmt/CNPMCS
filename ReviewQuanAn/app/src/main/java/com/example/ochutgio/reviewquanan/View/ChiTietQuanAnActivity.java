@@ -247,26 +247,34 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
         /// lấy video của quán ăn
         if(quanAnModel.getVideogioithieu() != null){
-            videoTrailer.setVisibility(View.VISIBLE);
-            imvPlayVideo.setVisibility(View.VISIBLE);
-            imvHinhAnhQuanAn.setVisibility(View.GONE);
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Video").child(quanAnModel.getVideogioithieu());
-            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    videoTrailer.setVideoURI(uri);
-                    videoTrailer.seekTo(1000);
-                }
-            });
-            imvPlayVideo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    imvPlayVideo.setVisibility(View.GONE);
-                    videoTrailer.start();
-                    MediaController mediaController = new MediaController(ChiTietQuanAnActivity.this);
-                    videoTrailer.setMediaController(mediaController);
-                }
-            });
+            if(!quanAnModel.getVideogioithieu().equals("")){
+                videoTrailer.setVisibility(View.VISIBLE);
+                imvPlayVideo.setVisibility(View.VISIBLE);
+                imvHinhAnhQuanAn.setVisibility(View.GONE);
+
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Video").child(quanAnModel.getVideogioithieu());
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        videoTrailer.setVideoURI(uri);
+                        videoTrailer.seekTo(1000);
+                    }
+                });
+                imvPlayVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        imvPlayVideo.setVisibility(View.GONE);
+                        videoTrailer.start();
+                        MediaController mediaController = new MediaController(ChiTietQuanAnActivity.this);
+                        videoTrailer.setMediaController(mediaController);
+                    }
+                });
+            }else {
+                imvHinhAnhQuanAn.setVisibility(View.VISIBLE);
+                videoTrailer.setVisibility(View.GONE);
+                imvPlayVideo.setVisibility(View.GONE);
+            }
+
         }else {
             imvHinhAnhQuanAn.setVisibility(View.VISIBLE);
             videoTrailer.setVisibility(View.GONE);

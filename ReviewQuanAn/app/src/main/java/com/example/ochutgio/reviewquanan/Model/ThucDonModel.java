@@ -71,12 +71,12 @@ public class ThucDonModel {
                                 MonAnModel monAnModel = valueMonAn.getValue(MonAnModel.class);
                                 monAnModel.setMamonan(valueMonAn.getKey());
                                 monAnModelList.add(monAnModel);
-                                Log.d("kiemtra", monAnModel.getTenmon());
+                                //Log.d("kiemtra", monAnModel.getTenmon());
                             }
                             thucDonModel.setMonAnModelList(monAnModelList);
                             thucDonModelList.add(thucDonModel);
 
-                            Log.d("kiemtra", thucDonModelList.size() + "");
+                            //Log.d("kiemtra", thucDonModelList.size() + "");
                             thucDonInterface.getThucDonThanhCong(thucDonModelList);
                         }
 
