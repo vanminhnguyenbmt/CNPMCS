@@ -14,16 +14,17 @@
     android:orientation="vertical">
     
         <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark">
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:id="@+id/imgLogo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:srcCompat="@drawable/yourfood_logo" />
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            app:srcCompat="@mipmap/logo" />
+
         <RadioGroup
             android:id="@+id/rbg_odau_angi"
             android:layout_width="wrap_content"
@@ -64,7 +65,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="right"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="14dp"
             app:srcCompat="@drawable/search_50" />
     </android.support.v7.widget.Toolbar>
 

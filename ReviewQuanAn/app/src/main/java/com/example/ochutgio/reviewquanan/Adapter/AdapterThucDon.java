@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ochutgio.reviewquanan.Model.ThucDonModel;
@@ -42,6 +43,7 @@ public class AdapterThucDon extends RecyclerView.Adapter<AdapterThucDon.ViewHold
             recyclerMonAn = (RecyclerView) itemView.findViewById(R.id.recyclerMonAn);
             imvMenuDown = (ImageView) itemView.findViewById(R.id.imvMenuDown);
             imvMenuPlus = (ImageView) itemView.findViewById(R.id.imvMenuPlus);
+
         }
     }
 

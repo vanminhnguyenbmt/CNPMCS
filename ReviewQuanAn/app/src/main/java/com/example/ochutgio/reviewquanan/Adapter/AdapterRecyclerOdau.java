@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,8 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
         }
     }
 
+
+
     @Override
     public AdapterRecyclerOdau.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
@@ -144,6 +147,11 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
 
             if(tongdiem > 0){
                 double diemtb = tongdiem / quanAnModel.getBinhluanquanan().size();
+                if(diemtb > 5){
+                    holder.txtDiemQuanAn.setTextColor(Color.WHITE);
+                }else {
+                    holder.txtDiemQuanAn.setTextColor(Color.RED);
+                }
                 holder.txtDiemQuanAn.setText(String.format("%.1f", diemtb));
             }
 
@@ -154,6 +162,7 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             holder.containerBinhLuan1.setVisibility(View.GONE);
             holder.txtTongBinhLuan.setText("0");
             holder.txtTongHinhAnh.setText("0");
+            holder.txtDiemQuanAn.setTextColor(Color.WHITE);
             holder.txtDiemQuanAn.setText("_._");
         }
 
@@ -205,7 +214,8 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             public void onClick(View view) {
             if(quanAnModel.getBinhluanquanan().size() > 0){
                 Intent iTatCaBinhLuan = new Intent(context, TatCaBinhLuanActivity.class);
-                iTatCaBinhLuan.putExtra("binhluanquanan", quanAnModel);
+                iTatCaBinhLuan.putExtra("maquanan", quanAnModel.getMaquanan());
+                iTatCaBinhLuan.putExtra("tenquanan", quanAnModel.getTenquanan());
                 context.startActivity(iTatCaBinhLuan);
             }
 
@@ -217,7 +227,8 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             public void onClick(View view) {
             if(Integer.parseInt(holder.txtTongHinhAnh.getText().toString()) > 0){
                 Intent iTatCaHinhAnh = new Intent(context, TatCaHinhAnhActivity.class);
-                iTatCaHinhAnh.putExtra("hinhanhquanan", quanAnModel);
+                iTatCaHinhAnh.putExtra("maquanan", quanAnModel.getMaquanan());
+                iTatCaHinhAnh.putExtra("tenquanan", quanAnModel.getTenquanan());
                 context.startActivity(iTatCaHinhAnh);
            }
             }

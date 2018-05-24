@@ -2,6 +2,7 @@ package com.example.ochutgio.reviewquanan.Controller;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.ProgressBar;
 
 import com.example.ochutgio.reviewquanan.Model.BinhLuanModel;
 
@@ -19,7 +20,7 @@ public class BinhLuanController {
         binhLuanModel = new BinhLuanModel();
     }
 
-    public  void ThemBinhLuan(BinhLuanModel binhLuanModel, List<String> listHinh, String maquanan, Context context){
-        binhLuanModel.ThemBinhLuan(binhLuanModel, listHinh, maquanan, context);
+    public  void ThemBinhLuan(BinhLuanModel binhLuanModel, List<String> listHinh, String maquanan, Context context, ProgressBar progressBar){
+        binhLuanModel.ThemBinhLuan(binhLuanModel, listHinh, maquanan, context, progressBar);
     }
 }

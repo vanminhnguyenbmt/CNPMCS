@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
@@ -61,8 +62,9 @@ public class TimKiemActivity extends AppCompatActivity{
 
         recyclerTimKiem = (RecyclerView) findViewById(R.id.recyclerTimKiem);
         svTimKiem = (SearchView) findViewById(R.id.svTimKiem);
-
-
+        EditText searchEditText = (EditText) svTimKiem.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.colorWhite));
+        //searchEditText.setHintTextColor(getResources().getColor(R.color.w));
 
         svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

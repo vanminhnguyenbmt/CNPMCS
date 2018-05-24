@@ -7,8 +7,10 @@
     android:layout_marginBottom="10dp">
 
     <LinearLayout
+        android:id="@+id/khungThucDon"
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -16,24 +18,27 @@
             android:layout_height="18dp"
             android:layout_margin="10dp"
             android:background="@drawable/menu"/>
-
-        <!--<ExpandableListView-->
-            <!--android:id="@+id/expanded_thucdon"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:groupIndicator="@null">-->
-
-        <!--</ExpandableListView>-->
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerThucDon"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_weight="1"
+            android:text="Bổ sung thực đơn"/>
 
-        </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/right_arow"/>
 
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerThucDon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp">
+
+    </android.support.v7.widget.RecyclerView>
 
     <View
         android:layout_width="match_parent"

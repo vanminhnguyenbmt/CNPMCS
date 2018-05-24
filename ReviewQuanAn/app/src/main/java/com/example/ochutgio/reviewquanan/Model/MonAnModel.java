@@ -18,10 +18,9 @@ public class MonAnModel {
     long giatien;
     String hinhanh;
     String tenmon;
-    String loaimonan;
     String mamonan;
 
-    DatabaseReference noteRoot;
+    private DatabaseReference noteRoot;
 
     public MonAnModel(){
         noteRoot = FirebaseDatabase.getInstance().getReference();
@@ -51,14 +50,6 @@ public class MonAnModel {
         this.tenmon = tenmon;
     }
 
-    public String getLoaimonan() {
-        return loaimonan;
-    }
-
-    public void setLoaimonan(String loaimonan) {
-        this.loaimonan = loaimonan;
-    }
-
     public String getMamonan() {
         return mamonan;
     }
@@ -66,6 +57,7 @@ public class MonAnModel {
     public void setMamonan(String mamonan) {
         this.mamonan = mamonan;
     }
+
     public void getDanhSachMonAnModel(AnGiInterface anGiInterface){
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override

@@ -35,7 +35,7 @@ import java.util.List;
 public class BinhLuanActivity extends AppCompatActivity implements View.OnClickListener{
 
     final int REQUESTCODE_CHONHINHBINHLUAN = 11;
-
+    ProgressBar progressBar;
     TextView txtDangBinhLuan;
     TextView txtTenQuanAn;
     TextView txtDiaChi;
@@ -69,6 +69,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
         binhLuanController = new BinhLuanController();
         listHinhDaChon = new ArrayList<>();
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         recyclerHinhDuocChon = (RecyclerView) findViewById(R.id.recyclerHinhDuocChon);
         txtTenQuanAn = (TextView) findViewById(R.id.txtTenQuanAn);
         txtDiaChi = (TextView) findViewById(R.id.txtDiaChi);
@@ -137,7 +138,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
                     binhLuanModel.setChamdiem(chamdiem);
                     binhLuanModel.setLuotthich(0);
                     binhLuanModel.setMauser(mauser);
-                    binhLuanController.ThemBinhLuan(binhLuanModel, listHinhDaChon, maquanan, this);
+                    binhLuanController.ThemBinhLuan(binhLuanModel, listHinhDaChon, maquanan, this, progressBar);
                 }
 
                 break;

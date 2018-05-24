@@ -7,7 +7,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimaryDark">
 
         <TextView
@@ -32,36 +32,51 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?android:attr/actionBarSize">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:background="@color/colorTrangChu">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/txtTenQuanAn"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:background="@color/colorTrangChu">
+
+                    <TextView
+                        android:id="@+id/txtTenQuanAn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextTenQuan"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Bánh xèo áp chảo - bánh bèo nhân tôm"/>
+
+                    <TextView
+                        android:id="@+id/txtDiaChi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="125 Phan Văn Trị"/>
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextTenQuan"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:text="Bánh xèo áp chảo - bánh bèo nhân tôm"/>
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/txtDiaChi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="125 Phan Văn Trị"/>
+            </FrameLayout>
 
-            </LinearLayout>
+
 
             <LinearLayout
 
@@ -139,6 +154,7 @@
 
             </LinearLayout>
 
+
             <EditText
                 android:id="@+id/edNoiDungBinhLuan"
                 android:layout_width="match_parent"
@@ -149,6 +165,9 @@
                 android:gravity="top"
                 android:layout_weight="1"
                 android:hint="Vui lòng viết bình luận sử dụng ngôn từ có văn hóa, không spam." />
+
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerHinhDuocChon"

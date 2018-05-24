@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,14 +42,15 @@ public class OdauController {
         quanAnModel = new QuanAnModel();
     }
 
-    public void getDanhSachQuanAnController(Context context, RecyclerView recyclerOdau, final Location vitrihientai, final ProgressBar progressBar){
+    public void getDanhSachQuanAnController( RecyclerView recyclerOdau, final Location vitrihientai, final SwipeRefreshLayout swipeRefreshLayout){
         quanAnModelList  = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerOdau.setLayoutManager(layoutManager);
         adapterRecyclerOdau = new AdapterRecyclerOdau(context, quanAnModelList, R.layout.custom_layout_recycleview_odau);
         recyclerOdau.setAdapter(adapterRecyclerOdau);
 
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
         final OdauInterface odauInterface = new OdauInterface() {
             @Override
             public void getDanhSachQuanAnModel(final QuanAnModel quanAnModel) {
@@ -63,8 +65,8 @@ public class OdauController {
                         quanAnModel.setBitmaphinhanhquanan(bitmapHinhQuanAn);
                         quanAnModelList.add(quanAnModel);
                         adapterRecyclerOdau.notifyDataSetChanged();
-                        progressBar.setVisibility(View.GONE);
-
+                        //progressBar.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
                         }
                     });
                 }

@@ -1,6 +1,7 @@
 package com.example.ochutgio.reviewquanan.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ochutgio.reviewquanan.R;
+import com.example.ochutgio.reviewquanan.View.ImageSlideActivity;
+import com.example.ochutgio.reviewquanan.View.ImageSlideUserActivity;
 
 import java.util.List;
 
@@ -23,11 +26,13 @@ public class AdapterRecyclerHinhBinhLuan extends RecyclerView.Adapter<AdapterRec
     Context context;
     int layout;
     List<Bitmap> listHinh;
+    String mabinhluan;
 
-    public AdapterRecyclerHinhBinhLuan(Context context, int layout, List<Bitmap> listHinh){
+    public AdapterRecyclerHinhBinhLuan(Context context, int layout, List<Bitmap> listHinh, String mabinhluan){
         this.context = context;
         this.layout = layout;
         this.listHinh = listHinh;
+        this.mabinhluan = mabinhluan;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,7 +60,7 @@ public class AdapterRecyclerHinhBinhLuan extends RecyclerView.Adapter<AdapterRec
     }
 
     @Override
-    public void onBindViewHolder(AdapterRecyclerHinhBinhLuan.ViewHolder holder, int position) {
+    public void onBindViewHolder(AdapterRecyclerHinhBinhLuan.ViewHolder holder, final int position) {
         Bitmap b = listHinh.get(position);
         holder.imvHinhBinhLuan.setImageBitmap(b);
         if(position == 3){
@@ -65,6 +70,15 @@ public class AdapterRecyclerHinhBinhLuan extends RecyclerView.Adapter<AdapterRec
                 holder.txtSoHinhBinhLuan.setText("+" + sohinhconlai);
             }
         }
+        holder.imvHinhBinhLuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iImageSlide = new Intent(context, ImageSlideUserActivity.class);
+                iImageSlide.putExtra("mabinhluan", mabinhluan);
+                iImageSlide.putExtra("vitri", position);
+                context.startActivity(iImageSlide);
+            }
+        });
     }
 
     @Override

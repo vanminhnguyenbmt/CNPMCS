@@ -8,13 +8,15 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent">
 
         <ImageView
             android:id="@+id/imvChupHinh"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center_vertical"
             android:src="@drawable/img_mini_themhinh"/>
@@ -60,12 +62,29 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnThemThucDon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Thêm món ăn"/>
+            <ImageButton
+                android:id="@+id/btnXoaMonAn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                android:src="@android:drawable/ic_delete"/>
+
+            <ImageButton
+                android:id="@+id/btnThemMonAn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:src="@android:drawable/ic_menu_save"/>
+
+        </FrameLayout>
+
+
+
+    </LinearLayout>
 
 </LinearLayout>

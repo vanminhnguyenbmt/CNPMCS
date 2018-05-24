@@ -10,10 +10,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ochutgio.reviewquanan.View.BinhLuanActivity;
+import com.example.ochutgio.reviewquanan.View.TimKiemActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -35,6 +39,7 @@ import java.util.List;
 public class BinhLuanModel implements Parcelable {
     String noidung;
     String tieude;
+    String mabinhluan;
     String mauser;
     long chamdiem, luotthich;
 
@@ -50,6 +55,7 @@ public class BinhLuanModel implements Parcelable {
         noidung = in.readString();
         tieude = in.readString();
         mauser = in.readString();
+        mabinhluan = in.readString();
         chamdiem = in.readLong();
         luotthich = in.readLong();
         hinhanhBinhLuan = in.createStringArrayList();
@@ -78,6 +84,14 @@ public class BinhLuanModel implements Parcelable {
 
     public String getMauser() {
         return mauser;
+    }
+
+    public String getMabinhluan() {
+        return mabinhluan;
+    }
+
+    public void setMabinhluan(String mabinhluan) {
+        this.mabinhluan = mabinhluan;
     }
 
     public void setMauser(String mauser) {
@@ -135,36 +149,38 @@ public class BinhLuanModel implements Parcelable {
         parcel.writeString(noidung);
         parcel.writeString(tieude);
         parcel.writeString(mauser);
+        parcel.writeString(mabinhluan);
         parcel.writeLong(chamdiem);
         parcel.writeLong(luotthich);
         parcel.writeStringList(hinhanhBinhLuan);
         parcel.writeParcelable(thanhVienModel, i);
     }
 
-    public void ThemBinhLuan(BinhLuanModel binhLuanModel, final List<String> listHinh, String maquanan, final Context context){
+    public void ThemBinhLuan(BinhLuanModel binhLuanModel, final List<String> listHinh, String maquanan, final Context context, final ProgressBar progressBar){
 
         DatabaseReference noteBinhLuan = FirebaseDatabase.getInstance().getReference().child("binhluans");
         final String mabinhluan = noteBinhLuan.child(maquanan).push().getKey();
+        progressBar.setVisibility(View.VISIBLE);
         noteBinhLuan.child(maquanan).child(mabinhluan).setValue(binhLuanModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isComplete()){
                     if(listHinh.size() > 0){
                         for(final String valueHinh : listHinh){
+                            final String tenhinh = String.valueOf(Calendar.getInstance().getTimeInMillis()) + ".jpg" ;
                             Bitmap bitmap = resizeFile(valueHinh);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                             byte[] data = stream.toByteArray();
 
-                            final Uri uri = Uri.fromFile(new File(valueHinh));
-                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Photo/" + uri.getLastPathSegment());
+                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Photo/" + tenhinh);
                             storageReference.putBytes(data).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                     if(!task.isSuccessful()){
-                                        Toast.makeText(context, uri.getLastPathSegment() + " upload thất bại", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context,  "Upload hình thất bại", Toast.LENGTH_SHORT).show();
                                     }else {
-                                        FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(uri.getLastPathSegment());
+                                        FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(tenhinh);
                                     }
                                 }
                             });
@@ -172,10 +188,15 @@ public class BinhLuanModel implements Parcelable {
                         }
                     }
                     ///
-                    Toast.makeText(context, "Thêm bình luận thành công", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    Toast toast= Toast.makeText(context, "Thêm bình luận thành công", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                     ((Activity)context).finish();
                 }else {
-                    Toast.makeText(context, "Thêm bình luận thất bại", Toast.LENGTH_SHORT).show();
+                    Toast toast= Toast.makeText(context, "Thêm bình luận thất bại", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                 }
             }
         });

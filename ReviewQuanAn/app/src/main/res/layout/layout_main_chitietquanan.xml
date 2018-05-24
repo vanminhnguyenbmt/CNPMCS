@@ -182,8 +182,8 @@
 
                             <TextView
                                 android:id="@+id/txtDiemQuanAnChiTiet"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:background="@drawable/cycle_backgroud"
                                 android:gravity="center"
                                 android:text="_._"
@@ -249,28 +249,6 @@
             android:padding="3dp"
             android:background="@drawable/cyrcle_background">
 
-            <!--<LinearLayout-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_weight="1">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="22dp"-->
-                    <!--android:background="@drawable/camera_24_white"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="2dp"-->
-                    <!--android:text="Tải ảnh"-->
-                    <!--android:textColor="@color/colorAccent"-->
-                    <!--android:textSize="12sp" />-->
-
-            <!--</LinearLayout>-->
-
             <LinearLayout
                 android:id="@+id/btnBinhLuan"
                 android:layout_width="wrap_content"
@@ -281,76 +259,11 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/comment_24_white"/>
+                    android:background="@drawable/comments"/>
 
 
             </LinearLayout>
 
-            <!--<LinearLayout-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_weight="1">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="22dp"-->
-                    <!--android:layout_height="22dp"-->
-                    <!--android:background="@drawable/location_24_white"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="2dp"-->
-                    <!--android:text="Check-in"-->
-                    <!--android:textColor="@color/colorAccent"-->
-                    <!--android:textSize="12sp" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_weight="1">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="22dp"-->
-                    <!--android:layout_height="22dp"-->
-                    <!--android:background="@drawable/pin_24_white"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="2dp"-->
-                    <!--android:text="Lưu lại"-->
-                    <!--android:textColor="@color/colorAccent"-->
-                    <!--android:textSize="12sp" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_weight="1">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="22dp"-->
-                    <!--android:layout_height="22dp"-->
-                    <!--android:background="@drawable/share_24_white"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="2dp"-->
-                    <!--android:text="Chia sẻ"-->
-                    <!--android:textColor="@color/colorAccent"-->
-                    <!--android:textSize="12sp" />-->
-
-            <!--</LinearLayout>-->
 
 
         </LinearLayout>

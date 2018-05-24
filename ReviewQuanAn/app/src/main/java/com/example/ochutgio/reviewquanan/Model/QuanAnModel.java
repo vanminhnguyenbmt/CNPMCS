@@ -264,6 +264,7 @@ public class QuanAnModel implements Parcelable {
             List<BinhLuanModel> binhLuanModelList = new ArrayList<>();
             for(DataSnapshot valueBinhLuan : dataBinhLuanQuanAnList.getChildren()){
                 BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
+                binhLuanModel.setMabinhluan(valueBinhLuan.getKey());
                 ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
                 binhLuanModel.setThanhVienModel(thanhVienModel);
 

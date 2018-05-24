@@ -9,17 +9,28 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ochutgio.reviewquanan.Adapter.AdapterTatCaBinhLuanQuanAn;
 import com.example.ochutgio.reviewquanan.Adapter.AdapterTatCaHinhAnh;
 import com.example.ochutgio.reviewquanan.Adapter.AdapterViewPagerSlideHinh;
 import com.example.ochutgio.reviewquanan.Model.BinhLuanModel;
 import com.example.ochutgio.reviewquanan.Model.QuanAnModel;
+import com.example.ochutgio.reviewquanan.Model.ThanhVienModel;
 import com.example.ochutgio.reviewquanan.R;
 import com.example.ochutgio.reviewquanan.View.Fragment.SlideHinhFrament;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -33,12 +44,13 @@ import java.util.List;
 
 public class TatCaHinhAnhActivity extends AppCompatActivity {
     QuanAnModel quanAnModel;
-    List<Fragment> fragmentList;
+    String maquanan;
+    String tenquanan;
 
     RecyclerView recyclerHinhAnh;
     TextView txtTenQuanAn;
     Toolbar toolbar;
-    ViewPager viewPagerSlideHinh;
+    List<Bitmap>  bitmapList;
 
     ProgressDialog progressDialog;
     @Override
@@ -46,16 +58,18 @@ public class TatCaHinhAnhActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_tatcahinhanh);
 
-        quanAnModel = getIntent().getParcelableExtra("hinhanhquanan");
+        quanAnModel = new QuanAnModel();
+        maquanan = getIntent().getStringExtra("maquanan");
+        tenquanan = getIntent().getStringExtra("tenquanan");
 
         recyclerHinhAnh = (RecyclerView) findViewById(R.id.recyclerHinhAnh);
         txtTenQuanAn = (TextView) findViewById(R.id.txtTenQuanAn);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        viewPagerSlideHinh = (ViewPager) findViewById(R.id.viewpagerSlideHinh);
 
         progressDialog = new ProgressDialog(this);
+        bitmapList = new ArrayList<>();
 
-        txtTenQuanAn.setText(quanAnModel.getTenquanan());
+        txtTenQuanAn.setText(tenquanan);
 
         /// set toolbar
         toolbar.setTitle("");
@@ -63,48 +77,66 @@ public class TatCaHinhAnhActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        final List<Bitmap>  bitmapList = new ArrayList<>();
         progressDialog.setMessage("Đang tải hình");
         progressDialog.setIndeterminate(true);
-        //progressDialog.setCancelable(false);
         progressDialog.show();
-        for(final BinhLuanModel binhLuanModel : quanAnModel.getBinhluanquanan()){
-            for(String linkhinh : binhLuanModel.getHinhanhBinhLuan()){
-                StorageReference storageHinhBinhLuan = FirebaseStorage.getInstance().getReference().child("Photo").child(linkhinh);
-                long ONE_MEGABYTE = 1024*1024;
-                storageHinhBinhLuan.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        bitmapList.add(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
-                        progressDialog.dismiss();
-                        AdapterTatCaHinhAnh adapter = new AdapterTatCaHinhAnh(TatCaHinhAnhActivity.this, R.layout.custom_layout_tatcahinhanh, bitmapList);
-                        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(TatCaHinhAnhActivity.this, 3);
-                        recyclerHinhAnh.setLayoutManager(layoutManager);
-                        recyclerHinhAnh.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+
+        LoadHinhAnh(maquanan);
+
+
+    }
+
+    private void LoadHinhAnh(final String maquanan){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        progressDialog.show();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot dataBinhLuanQuanAnList = dataSnapshot.child("binhluans").child(maquanan);
+                List<BinhLuanModel> binhLuanModelList = new ArrayList<>();
+                for (DataSnapshot valueBinhLuan : dataBinhLuanQuanAnList.getChildren()) {
+                    BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
+                    ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
+                    binhLuanModel.setThanhVienModel(thanhVienModel);
+
+                    List<String> hinhanhBinhLuan = new ArrayList<>();
+                    DataSnapshot dataHinhAnhBinhLuan = dataSnapshot.child("hinhanhbinhluans").child(valueBinhLuan.getKey());
+                    for (DataSnapshot valueHinhAnhBinhLuan : dataHinhAnhBinhLuan.getChildren()) {
+                        hinhanhBinhLuan.add(valueHinhAnhBinhLuan.getValue(String.class));
                     }
-                });
+                    binhLuanModel.setHinhanhBinhLuan(hinhanhBinhLuan);
+                    binhLuanModelList.add(binhLuanModel);
+                }
+
+                quanAnModel.setBinhluanquanan(binhLuanModelList);
+                ///
+                for(final BinhLuanModel binhLuanModel : quanAnModel.getBinhluanquanan()){
+                    for(String linkhinh : binhLuanModel.getHinhanhBinhLuan()){
+                        StorageReference storageHinhBinhLuan = FirebaseStorage.getInstance().getReference().child("Photo").child(linkhinh);
+                        long ONE_MEGABYTE = 1024*1024;
+                        storageHinhBinhLuan.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                bitmapList.add(bitmap);
+                                progressDialog.dismiss();
+                                AdapterTatCaHinhAnh adapter = new AdapterTatCaHinhAnh(TatCaHinhAnhActivity.this, R.layout.custom_layout_tatcahinhanh, bitmapList, maquanan);
+                                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(TatCaHinhAnhActivity.this, 3);
+                                recyclerHinhAnh.setLayoutManager(layoutManager);
+                                recyclerHinhAnh.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+
             }
-        }
 
-        fragmentList = new ArrayList<>();
-        for(int i = 0; i < bitmapList.size(); i++) {
-            SlideHinhFrament slideHinhFrament = new SlideHinhFrament();
-            /// chuyen bitmap thanh byteArray va gui cho Fragment
-            Bundle bundle = new Bundle();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmapList.get(i).compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            bundle.putByteArray("byteArray", byteArray );
-            slideHinhFrament.setArguments(bundle);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-            fragmentList.add(slideHinhFrament );
-        }
-
-        AdapterViewPagerSlideHinh adapterViewPagerSlideHinh = new AdapterViewPagerSlideHinh(getSupportFragmentManager(), fragmentList);
-        viewPagerSlideHinh.setAdapter(adapterViewPagerSlideHinh);
-        adapterViewPagerSlideHinh.notifyDataSetChanged();
+            }
+        });
 
     }
 

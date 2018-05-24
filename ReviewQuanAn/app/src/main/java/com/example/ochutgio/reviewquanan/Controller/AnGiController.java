@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,15 +34,15 @@ public class AnGiController {
     AdapterRecyclerAnGi adapterRecyclerAnGi;
     List<QuanAnModel> quanAnModelList;
 
-    int itemdaco = 6;
-    int buocnhay = 6;
+    int itemdaco = 3;
+    int buocnhay = 3;
 
     public AnGiController(Context context){
         this.context = context;
         quanAnModel = new QuanAnModel();
     }
 
-    public void getDanhSachQuanAnController(RecyclerView recyclerAnGi, final Location vitrihientai, final ProgressBar progressBar){
+    public void getDanhSachQuanAnController(RecyclerView recyclerAnGi, final Location vitrihientai, final SwipeRefreshLayout swipeRefreshLayout){
 
         quanAnModelList  = new ArrayList<>();
 
@@ -52,7 +53,8 @@ public class AnGiController {
         // tạo adapterRecycleView và set adapter cho recyclerView
         adapterRecyclerAnGi = new AdapterRecyclerAnGi(quanAnModelList, R.layout.custom_layout_recycleview_angi, context);
         recyclerAnGi.setAdapter(adapterRecyclerAnGi);
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
         final OdauInterface odauInterface = new OdauInterface() {
             @Override
             public void getDanhSachQuanAnModel(final QuanAnModel quanAnModel) {
@@ -67,7 +69,8 @@ public class AnGiController {
                             quanAnModel.setBitmaphinhmonan(bitmapHinhMonAn);
                             quanAnModelList.add(quanAnModel);
                             adapterRecyclerAnGi.notifyDataSetChanged();
-                            progressBar.setVisibility(View.GONE);
+                            swipeRefreshLayout.setRefreshing(false);
+                            //progressBar.setVisibility(View.GONE);
                         }
                     });
 
@@ -97,7 +100,7 @@ public class AnGiController {
         });
 
         // gọi hàm getdanhsachquanan của tầng model
-        quanAnModel.getDanhSachQuanAn(odauInterface, vitrihientai, 6, 0);
+        quanAnModel.getDanhSachQuanAn(odauInterface, vitrihientai, itemdaco, 0);
     }
 
 }

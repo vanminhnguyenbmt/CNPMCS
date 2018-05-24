@@ -1,6 +1,7 @@
 package com.example.ochutgio.reviewquanan.View;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by ochutgio on 4/4/2018.
@@ -83,6 +85,10 @@ public class DangKyActivity extends AppCompatActivity {
                                             if(task.isSuccessful()){
 
                                                 Toast.makeText(DangKyActivity.this, "Đăng ký thành công vui lòng xác thực email để đăng nhập", Toast.LENGTH_SHORT).show();
+                                                FirebaseAuth.getInstance().signOut();
+                                                Intent  iDangNhap = new Intent(DangKyActivity.this, DangNhapActivity.class);
+                                                startActivity(iDangNhap);
+                                                finish();
                                             }
                                         }
                                     });

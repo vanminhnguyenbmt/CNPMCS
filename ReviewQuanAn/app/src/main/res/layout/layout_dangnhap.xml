@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="40dp"
             android:layout_gravity="center_horizontal"
             android:text="@string/application_name"
             android:textAllCaps="false"
@@ -35,28 +35,30 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:backgroundTint="@color/colorAccent"
-            android:drawableLeft="@drawable/identity_white_24"
             android:hint="@string/email"
             android:textColorHint="@color/colorAccent"
             android:textColor="@color/colorAccent"/>
+
 
         <EditText
             android:id="@+id/edPasswordDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:drawableLeft="@drawable/lock_white_24"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:textColorHint="@color/colorAccent"
             android:textColor="@color/colorAccent"/>
+
+
+
 
         <Button
             android:id="@+id/btnDangNhap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:background="@color/colorAccent"
             android:text="@string/dangnhap"
             android:textColor="@color/colorPrimaryDark" />
@@ -105,19 +107,19 @@
             android:text="@string/dangnhapbanggoogle"
             android:textColor="@color/colorPrimaryDark" />
 
-        <Button
-            android:id="@+id/btnDangNhapFacebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorAccent"
-            android:drawableLeft="@drawable/facebook"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Đăng nhập bằng facebook"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryDark" />
+        <!--<Button-->
+            <!--android:id="@+id/btnDangNhapFacebook"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@color/colorAccent"-->
+            <!--android:drawableLeft="@drawable/facebook"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:text="Đăng nhập bằng facebook"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="@color/colorPrimaryDark" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
-                android:text="Quên mật khẩu?"
+                android:text="Quên mật khẩu"
                 android:textColor="@color/colorAccent" />
 
             <TextView

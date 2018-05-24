@@ -101,7 +101,7 @@ public class AdapterBinhLuanQuanAn extends RecyclerView.Adapter<AdapterBinhLuanQ
                     bitmapList.add(bitmap);
 
                     if(bitmapList.size() == binhLuanModel.getHinhanhBinhLuan().size()){
-                        AdapterRecyclerHinhBinhLuan adapterRecyclerHinhBinhLuan = new AdapterRecyclerHinhBinhLuan(context, R.layout.custom_layout_hinhbinhluan, bitmapList);
+                        AdapterRecyclerHinhBinhLuan adapterRecyclerHinhBinhLuan = new AdapterRecyclerHinhBinhLuan(context, R.layout.custom_layout_hinhbinhluan, bitmapList, binhLuanModel.getMabinhluan());
                         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context, 2);
                         holder.recyclerHinhBinhLuan.setLayoutManager(layoutManager);
                         holder.recyclerHinhBinhLuan.setAdapter(adapterRecyclerHinhBinhLuan);

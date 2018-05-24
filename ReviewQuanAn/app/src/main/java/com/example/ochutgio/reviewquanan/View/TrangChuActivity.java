@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -18,28 +17,31 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.ochutgio.reviewquanan.Model.ThanhVienModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import android.widget.ImageView;
 
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.ochutgio.reviewquanan.Adapter.AdapterViewPagerTrangchu;
 import com.example.ochutgio.reviewquanan.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -62,6 +64,7 @@ public class TrangChuActivity extends AppCompatActivity {
     RadioButton rb_angi;
 
     SharedPreferences sharedPreferences;
+    private GoogleSignInClient mGoogleSignInClient;
 
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -78,6 +81,12 @@ public class TrangChuActivity extends AppCompatActivity {
         setContentView(R.layout.layout_trangchu);
 
         sharedPreferences = getSharedPreferences("LuuDangNhap", MODE_PRIVATE);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         mDrawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -162,10 +171,20 @@ public class TrangChuActivity extends AppCompatActivity {
                 item.setChecked(true);
                 switch (item.getItemId()) {
                     case R.id.nav_item5:
-                        FirebaseAuth.getInstance().signOut();
-                        Intent iDangNhap = new Intent(TrangChuActivity.this, DangNhapActivity.class);
-                        startActivity(iDangNhap);
-                        finish();
+                        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent iDangNhap = new Intent(TrangChuActivity.this, DangNhapActivity.class);
+                                    startActivity(iDangNhap);
+                                    finish();
+                                }else {
+                                    Toast.makeText(TrangChuActivity.this, "Đăng xuất thât bại", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
                         break;
 
                     case R.id.nav_item4:
@@ -180,8 +199,7 @@ public class TrangChuActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_item1:
-//                        Intent iHoSo = new Intent(TrangChuActivity.this, HoSoActivity.class);
-//                        startActivity(iHoSo);
+//
                         break;
                 }
 
@@ -232,6 +250,9 @@ public class TrangChuActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
     /// sự kiện nhấn nút Back
     @Override
