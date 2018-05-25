@@ -10,17 +10,85 @@
       "client_info": {
         "mobilesdk_app_id": "1:703471269186:android:d67a7a8cde2895f9",
         "android_client_info": {
-          "package_name": "com.example.ochutgio.reviewquanan"
+          "package_name": "com.yourfood.uit.reviewquanan"
         }
       },
       "oauth_client": [
         {
+          "client_id": "703471269186-lp75s1qfoq3pqafmmqqkepu3ialahnau.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourfood.uit.reviewquanan",
+            "certificate_hash": "1c519473df123527628f6c8ce4a37f79a1841dd7"
+          }
+        },
+        {
+          "client_id": "703471269186-bi233csmselp5detjvage8bl6kfelp5b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourfood.uit.reviewquanan",
+            "certificate_hash": "f05558a72a1d58a433e2a1b9c4b7d26b47f9f57e"
+          }
+        },
+        {
           "client_id": "703471269186-bjdoqp60m6ro1kno66o21cfti8ke3enb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.ochutgio.reviewquanan",
+            "package_name": "com.yourfood.uit.reviewquanan",
             "certificate_hash": "b5dd239b9d76af522da1956995f6fc50d9b47519"
           }
+        },
+        {
+          "client_id": "703471269186-rnnsg1gqo5gkj8pfv2loglb8cev7rl86.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "703471269186-rnnsg1gqo5gkj8pfv2loglb8cev7rl86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANnAxugYxgnzTLvmc5wQx5o5tL_gD7qoM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703471269186-rnnsg1gqo5gkj8pfv2loglb8cev7rl86.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703471269186:android:f52d71969ed74173",
+        "android_client_info": {
+          "package_name": "com.yourfood.uit.reviewquanan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703471269186-epco985a9fmsd67bk6hdfcvtp39lvtok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourfood.uit.reviewquanan",
+            "certificate_hash": "b5dd239b9d76af522da1956995f6fc50d9b47519"
+          }
+        },
+        {
+          "client_id": "703471269186-rnnsg1gqo5gkj8pfv2loglb8cev7rl86.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "703471269186-rnnsg1gqo5gkj8pfv2loglb8cev7rl86.apps.googleusercontent.com",

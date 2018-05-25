@@ -6,10 +6,12 @@
         <item
             android:id="@+id/nav_item1"
             android:icon="@drawable/user_64"
+            android:enabled="false"
             android:title="@string/hoso" />
         <item
             android:id="@+id/nav_item2"
             android:icon="@drawable/settings_64"
+            android:enabled="false"
             android:title="@string/caidat" />
 
         <item
@@ -20,6 +22,7 @@
         <item
             android:id="@+id/nav_item4"
             android:icon="@drawable/bell_64"
+            android:enabled="false"
             android:title="@string/thongbao" />
 
         <item

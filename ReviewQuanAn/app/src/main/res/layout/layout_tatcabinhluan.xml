@@ -7,6 +7,42 @@
 
     <include layout="@layout/layout_toobar"/>
 
-    <include layout="@layout/layout_binhluan_chitietquanan"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/layout_main_tatcabinhluan"/>
+
+
+        <LinearLayout
+            android:layout_gravity="bottom|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="3dp"
+            android:background="@drawable/cyrcle_background">
+
+            <LinearLayout
+                android:id="@+id/btnBinhLuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/comments"/>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
 
 </LinearLayout>
